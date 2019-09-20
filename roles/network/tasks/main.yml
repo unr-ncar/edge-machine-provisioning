@@ -1,0 +1,38 @@
+- name: "enable tcp ports"
+  ufw:
+    rule: allow
+    proto: tcp
+    port: "{{ item }}"
+  with_items:
+    - 80 # http
+    - 30000 # cadvisor
+    - 8500 # consul
+    - 8312
+    - 8400
+    - 8600
+    - 8301
+    - 8302
+    - 8022 
+    - 443 # ssl
+    - 22 # ssh
+    - 30001
+
+- name: "enable udp ports"
+  ufw:
+    rule: allow
+    proto: udp
+    port: "{{ item }}"
+  with_items:
+    - 53 # dhcp
+    - 8600 # consul
+    - 8312
+    - 2368
+    - 2369
+    - 8308
+    - 8309
+    - 8022
+    - 30001
+
+- name: "enable ufw"
+  ufw:
+    state: enabled

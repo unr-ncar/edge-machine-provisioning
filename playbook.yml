@@ -1,0 +1,22 @@
+- name: 
+  hosts: all
+  vars_prompt: 
+    - name: "githubuser" 
+      prompt: "Enter your github username" 
+      private: no 
+    - name: "githubpassword" 
+      prompt: "Enter your github password" 
+      private: yes 
+  vars_files:
+  - vars/main.yml
+  become: yes
+  gather_facts: False
+  roles:
+    - base
+    - network
+    - smartcity
+    - mrlesmithjr.netplan
+  pre_tasks:
+  - raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+  - setup: # aka gather_facts
+  

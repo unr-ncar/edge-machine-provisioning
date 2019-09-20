@@ -1,0 +1,28 @@
+netplan_renderer: networkd
+netplan_remove_existing: False
+netplan_apply: True
+netplan_configuration: 
+  network:
+    version: 2
+    ethernets:
+      # to unr
+      enp1s0:
+        #addresses:
+        #  - 172.20.133.1/24
+        nameservers:
+            search: ["{{ansible_hostname}}", rc.unr.edu, unr.edu]
+            addresses: [134.197.6.1, 134.197.5.1, 134.197.75.254]
+        dhcp4: True
+        dhcp6: false
+        gateway4: 172.20.133.254
+      # to lidar sensors
+      enp2s0:
+        dhcp4: false
+        dhcp6: false
+        addresses:
+          - 192.168.1.1/24
+        #gateway4: 192.168.1.254
+        #routes:
+        #  - to: 192.168.1.0/24
+        #    via: 192.168.1.1
+        #    table: 101

@@ -1,0 +1,32 @@
+- name: Install base packages
+  apt: name= {{ item }} state=latest
+  with_items: 
+    - git
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: Update apt and install docker-ce,docker-compose
+  apt: update_cache=yes name={{ item }} state=latest
+  with_items:
+    - docker-ce
+    - docker-compose
+
+- name: create edge user
+  action: user name=edge state=present
+
+- name: Adding user edge to sudo and docker group 
+  user: name=edge
+        groups=sudo,docker
+        append=yes
