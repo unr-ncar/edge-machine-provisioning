@@ -1,3 +1,12 @@
+#- name: Get docker registry certificates from kubernetes
+- name: Ensures /etc/docker/certs.d/ncar-da-1.rc.unr.edu dir exists
+  file: path=/etc/docker/certs.d/ncar-da-1.rc.unr.edu state=directory
+
+- name: Pass over ssl certificates for private docker registry
+  copy:
+    src: certs/
+    dest: /etc/docker/certs.d/ncar-da-1.rc.unr.edu/
+
 - name: Clone a private repository into home directory of user
   git:
     repo: https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git

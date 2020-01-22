@@ -7,12 +7,12 @@ netplan_configuration:
     ethernets:
       # to unr
       enp1s0:
-        #addresses:
-        #  - 172.20.133.1/24
+        addresses:
+          - 172.20.133.1/24
         nameservers:
             search: ["{{ansible_hostname}}", rc.unr.edu, unr.edu]
-            addresses: [134.197.6.1, 134.197.5.1, 134.197.75.254]
-        dhcp4: True
+            addresses: [134.197.6.1, 134.197.5.1, 8.8.8.8]
+        dhcp4: false
         dhcp6: false
         gateway4: 172.20.133.254
       # to lidar sensors
