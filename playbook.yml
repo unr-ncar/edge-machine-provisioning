@@ -15,7 +15,9 @@
     - base
     - network
     - smartcity
-    - mrlesmithjr.netplan
+    # only enable this if you need to mass configure the networking of the edge network 
+    # be careful with this one
+    #- mrlesmithjr.netplan 
   pre_tasks:
   - raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
   - setup: # aka gather_facts

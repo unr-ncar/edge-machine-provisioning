@@ -20,5 +20,5 @@ deployments:
       lidarConfig: /velodyne/build/VLP-16.xml
       mqtttopic: test2
       dataPort: 2369
-pcapCaptureImage: ncar-da-0.rc.unr.edu:5000/pcapcapture
-pclProcessingImage: ncar-da-0.rc.unr.edu:5000/pclmqttserve
+pcapCaptureImage: ncar-da-1.rc.unr.edu:5000/pcapcapture
+pclProcessingImage: ncar-da-1.rc.unr.edu:5000/pclmqttserve
