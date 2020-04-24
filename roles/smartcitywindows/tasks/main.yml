@@ -1,0 +1,14 @@
+- name: git clone smart city repo
+  win_git:
+    repo: "https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git"
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\Smart-City"
+    branch: nifi
+    update: no
+    recursive: yes
+    replace_dest: no
+    accept_hostkey: yes
+
+- name: "Creating Sensor docker-compose yml"
+  template:
+    src: docker-compose-sensor.j2
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\Smart-City\\docker-compose-sensor.yml"

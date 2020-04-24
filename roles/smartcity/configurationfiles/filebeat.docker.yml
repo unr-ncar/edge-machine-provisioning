@@ -1,0 +1,19 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+- add_cloud_metadata: ~
+
+strict.perms: false
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:ncar-da-1.rc.unr.edu:31033}'
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'

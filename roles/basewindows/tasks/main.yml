@@ -1,0 +1,55 @@
+- name: Install notepadplusplus version 6.6
+  win_chocolatey:
+    name: notepadplusplus
+    version: '6.6'
+    
+- name: enableing hyperv
+  win_optional_feature:
+    name: 
+      - Microsoft-Hyper-V-All
+    state: present
+  register: win_feature
+
+- name: Reboot if needed
+  win_reboot:
+  when: win_feature.reboot_required
+
+- name: Install git
+  win_chocolatey:
+    name: git
+    state: present
+
+- name: Install docker desktop
+  win_chocolatey:
+    name: docker-desktop
+    state: present
+
+- name: Install Microsoft Subsystem for Linux
+  win_optional_feature:
+    name: Microsoft-Windows-Subsystem-Linux
+    state: present
+  register: wsl_status
+
+- name: Reboot if installing Linux Subsytem as feature requires it
+  win_reboot:
+  when: wsl_status.reboot_required
+
+- name: download ubuntu 18.04 for windows
+  win_uri:
+    dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
+    creates: C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
+    url: https://aka.ms/wsl-ubuntu-1804
+
+- name: install ubuntu 18.04 for windows
+  win_shell: Add-AppxPackage C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
+  ignore_errors: yes
+
+- name: enable ssh server
+  win_shell: Add-WindowsCapability -Online -Name OpenSSH.Server
+
+# windows server must be installed haven't found a good way to do this yet with ansible
+- name: Start ssh service
+  win_service:
+    name: "OpenSSH SSH Server"
+    start_mode: auto
+    state: started

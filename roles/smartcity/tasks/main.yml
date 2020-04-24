@@ -7,6 +7,41 @@
     src: certs/
     dest: /etc/docker/certs.d/ncar-da-1.rc.unr.edu/
 
+- name: Create a infrastructure directory if it does not exist
+  file:
+    path: /home/edge/infrastructure
+    state: directory
+- name: Create a data directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/data
+    state: directory
+- name: Create a elasticsearch directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/elasticsearch
+    state: directory
+- name: Create a directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/minifi
+    state: directory
+- name: Create a directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/minifi/content_repository
+    state: directory
+- name: Create a directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/minifi/flowfile_repository
+    state: directory
+- name: Create a directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/minifi/provenance_repository
+    state: directory
+- name: Adding configuration files to edge device
+  copy: 
+    src: configurationfiles/filebeat.docker.yml
+    dest:  /home/edge/infrastructure/elasticsearch/filebeat.docker.yml
+  copy: 
+    src: configurationfiles/process.yml
+    dest:  /home/edge/infrastructure/minifi/process.yml
 - name: Clone a private repository into home directory of user
   git:
     repo: https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git
