@@ -15,6 +15,14 @@
   file:
     path: /home/edge/infrastructure/data
     state: directory
+- name: Create a data directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/data/active
+    state: directory
+- name: Create a data directory if it does not exist
+  file:
+    path: /home/edge/infrastructure/data/pcap
+    state: directory
 - name: Create a elasticsearch directory if it does not exist
   file:
     path: /home/edge/infrastructure/elasticsearch
@@ -39,46 +47,8 @@
   copy: 
     src: configurationfiles/filebeat.docker.yml
     dest:  /home/edge/infrastructure/elasticsearch/filebeat.docker.yml
+- name: copying configuration files to edge device
   copy: 
     src: configurationfiles/process.yml
     dest:  /home/edge/infrastructure/minifi/process.yml
-- name: Clone a private repository into home directory of user
-  git:
-    repo: https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git
-    version: nifi
-    dest: /home/{{ansible_ssh_user}}/Smart-City
-    #accept_hostkey: yes
-  # ssh-agent doesn't allow key to pass through remote sudo commands.
-  #become: yes
-#- debug: 
-#   msg: System {{netplan_configuration}}
-
-- name: Update smart city repo
-  git:
-    repo: https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git
-    version: nifi
-    dest: /home/{{ansible_ssh_user}}/Smart-City
-    update: yes
-  tags:
-  - update
-- name: "Test jinja templating"
-  template:
-    src: test.j2
-    dest: /home/{{ansible_ssh_user}}/Smart-City/test.txt
-
-#- name: ensure compose files directory exists
-#  file: 
-#     path: "/home/{{ansible_ssh_user}}/Smart-City/compose-files"
-#     state: directory 
-#     recurse: yes
-
-- name: "Creating Sensor docker-compose yml"
-  template:
-    src: docker-compose-sensor.j2
-    dest: /home/{{ansible_ssh_user}}/Smart-City/docker-compose-sensor.yml
-
-- name: run compose files
-  shell: /home/{{ansible_ssh_user}}/Smart-City/start.sh
-  args:
-    chdir: /home/{{ansible_ssh_user}}/Smart-City
-  tags: ['never', 'run']
+    

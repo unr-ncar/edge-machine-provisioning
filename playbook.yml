@@ -1,12 +1,12 @@
 - name: "Linux Provision"
   hosts: edgelinux
-  vars_prompt: 
-    - name: "githubuser" 
-      prompt: "Enter your github username" 
-      private: no 
-    - name: "githubpassword" 
-      prompt: "Enter your github password" 
-      private: yes 
+  #vars_prompt: 
+  #  - name: "githubuser" 
+  #    prompt: "Enter your github username" 
+  #    private: no 
+  #  - name: "githubpassword" 
+  #    prompt: "Enter your github password" 
+  #    private: yes 
   vars_files:
   - vars/main.yml
   become: yes
@@ -14,7 +14,7 @@
   roles:
     - base
     - network
-    #- smartcity
+    - smartcity
     # only enable this if you need to mass configure the networking of the edge network 
     # be careful with this one
     #- mrlesmithjr.netplan 
@@ -22,18 +22,18 @@
   - raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
   - setup: # aka gather_facts
 
-- name: "Windows Provision"
-  hosts: edgewindows
-  vars_prompt: 
-    - name: "githubuser" 
-      prompt: "Enter your github username" 
-      private: no 
-    - name: "githubpassword" 
-      prompt: "Enter your github password" 
-      private: yes 
-  vars_files:
-  - vars/main.yml
-  gather_facts: False
-  roles:
-    - basewindows
-    - smartcitywindows
+#- name: "Windows Provision"
+#  hosts: edgewindows
+#  vars_prompt: 
+#    - name: "githubuser" 
+#      prompt: "Enter your github username" 
+#      private: no 
+#    - name: "githubpassword" 
+#      prompt: "Enter your github password" 
+#      private: yes 
+#  vars_files:
+#  - vars/main.yml
+#  gather_facts: False
+#  roles:
+#    - basewindows
+#    - smartcitywindows

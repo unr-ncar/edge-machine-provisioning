@@ -2,7 +2,7 @@ version: "{{composeVersion}}"
 services:
 {% for deployment in deployments %}
     pcap{{ deployment.id }}:
-        image: {{pcapCaptureImage}} #ncar-da-0.rc.unr.edu:5000/pcapcapture
+        image: {{pcapCaptureImage}} #ncar-da-0.rc.unr.edu/pcapcapture
         #build: ./pcap-processing/pcap
         network_mode: "host"
         volumes:
@@ -22,7 +22,7 @@ services:
         - DEPLOYMENTID={{deployment.deploymentId}} #0,1
 
     pcl{{ deployment.id }}:
-        image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
+        image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu/pclmqttserve
         #build: ./pcap-processing/pcl
         network_mode: "host"
         restart: always
