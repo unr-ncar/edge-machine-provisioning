@@ -1,14 +1,86 @@
-- name: git clone smart city repo
-  win_git:
-    repo: "https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git"
-    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\Smart-City"
-    branch: nifi
-    update: no
-    recursive: yes
-    replace_dest: no
-    accept_hostkey: yes
+#- name: git clone smart city repo
+#  win_git:
+#    repo: "https://{{ githubuser | urlencode }}:{{ githubpassword | urlencode }}@github.com/ChaseCarthen/Smart-City.git"
+#    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\Smart-City"
+#    branch: nifi
+#    update: no
+#    recursive: yes
+#    replace_dest: no
+#    accept_hostkey: yes
 
-- name: "Creating Sensor docker-compose yml"
-  template:
-    src: docker-compose-sensor.j2
-    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\Smart-City\\docker-compose-sensor.yml"
+- name: Create a data directory if it does not exist
+  win_file:
+    path: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\data\active
+    state: directory
+- name: Create a data directory if it does not exist
+  win_file:
+    path: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\data\pcap
+    state: directory
+
+- name: Create a elasticsearch directory if it does not exist
+  win_file:
+    path: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\elasticsearch
+    state: directory
+- name: Coping filebeat.docker.yml
+  win_copy:
+    dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\elasticsearch\\filebeat.docker.yml
+    src: filebeat.docker.yml
+
+- name: Create a content directory if it does not exist
+  win_file:
+    path: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\minifi\\content_repository
+    state: directory
+- name: Create a flowfile directory if it does not exist
+  win_file:
+    path: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\minifi\\flowfile_repository
+    state: directory
+- name: Create a provenance directory if it does not exist
+  win_file:
+    path: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\minifi\\provenance_repository
+    state: directory
+- name: Coping filebeat.docker.yml
+  win_copy:
+    dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\minifi\\process.yml
+    src: process.yml
+- name: "Creating power shell script for network interface 1"
+  win_template:
+    src: networking.ps1.j2
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking1.ps1"
+  vars:
+    access: one
+- name: "Creating power shell script for network interface 2"
+  win_template:
+    src: networking.ps1.j2
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
+  vars:
+    access: two
+- name: Create task to run a PS script as NETWORK service on boot
+  win_scheduled_task:
+    name: networking1 automated
+    description: Run a PowerShell script
+    actions:
+    - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking1.ps1"
+    triggers:
+    - type: boot
+    username: edge
+    password: IMProject
+    logon_type: password
+    execution_time_limit: PT0S
+    start_when_available: yes
+    state: present
+- name: Create task to run a PS script as NETWORK service on boot
+  win_scheduled_task:
+    name: networking2 automated
+    description: Run a PowerShell script
+    actions:
+    - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File"C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
+    triggers:
+    - type: boot
+    username: edge
+    password: IMProject
+    logon_type: password
+    execution_time_limit: PT0S
+    start_when_available: yes
+    state: present

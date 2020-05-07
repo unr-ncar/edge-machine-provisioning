@@ -1,0 +1,28 @@
+test: maybe2
+deployments:
+    one: 
+      id: 3 # sensorid
+      ip: 192.168.1.11
+      siteId: 0
+      deploymentId: 0
+      corner: SE
+      model: VLP-16
+      crossStreet: 15th
+      lidarConfig: /velodyne/build/VLP-16.xml
+      mqtttopic: test
+      dataPort: 2368
+      interface: one
+    two:
+      id: 4
+      ip: 192.168.1.10
+      siteId: 0
+      deploymentId: 1
+      corner: SE
+      model: VLP-16
+      crossStreet: 15th
+      lidarConfig: /velodyne/build/VLP-16.xml
+      mqtttopic: test2
+      dataPort: 2369
+      interface: nop
+pcapCaptureImage: ncar-da-1.rc.unr.edu:5000/pcapcapture
+pclProcessingImage: ncar-da-1.rc.unr.edu:5000/pclmqttserve

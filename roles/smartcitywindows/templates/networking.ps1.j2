@@ -1,0 +1,25 @@
+#path to tshark
+$tshark = 'C:\Program Files\Wireshark\tshark.exe'
+#$(Get-Date -format "yy-MM-dd-hh-mm")
+$interface = "{{deployments[access].interface}}"
+$STATE = "NV"
+$CITY = "Reno"
+$STREET = "Virginia"
+$CROSSSTREET = "{{deployments[access].crossStreet}}"
+$SENSORMODEL = "{{deployments[access].model}}" #"VLP32-c"
+$CORNER = "{{deployments[access].corner}}"
+$SITEID = "{{deployments[access].siteId}}"
+$DEPLOYMENTID = "{{deployments[access].deploymentId}}"
+$SENSORID = "{{deployments[access].id}}"
+$IP = "{{deployments[access].ip}}"
+while (1) 
+{
+    $filename = "$STATE$CITY$STREET$CROSSSTREET$CORNER$SENSORID`_$SENSORMODEL`_$(Get-Date -format "yyMMddhhmm")-$SITEID`,$DEPLOYMENTID`.pcap"
+    & $tshark -i $interface -a duration:3600 -w C:\Users\edge\Documents\infrastructure\data\pcap\$filename -F pcap -f "src host $IP"
+    move C:\Users\edge\Documents\infrastructure\data\active\$filename C:\Users\edge\Documents\infrastructure\data\pcap\$filename
+    if ($LastExitCode)
+    {
+        echo "It failed Man"
+        exit $LastExitCode
+    }
+}

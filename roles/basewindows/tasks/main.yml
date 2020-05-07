@@ -24,6 +24,11 @@
     name: docker-desktop
     state: present
 
+- name: Install docker desktop
+  win_chocolatey:
+    name: wireshark
+    state: present
+
 - name: Install Microsoft Subsystem for Linux
   win_optional_feature:
     name: Microsoft-Windows-Subsystem-Linux
@@ -34,15 +39,15 @@
   win_reboot:
   when: wsl_status.reboot_required
 
-- name: download ubuntu 18.04 for windows
-  win_uri:
-    dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
-    creates: C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
-    url: https://aka.ms/wsl-ubuntu-1804
+#- name: download ubuntu 18.04 for windows
+#  win_uri:
+#    dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
+#    creates: C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
+#    url: https://aka.ms/wsl-ubuntu-1804
 
-- name: install ubuntu 18.04 for windows
-  win_shell: Add-AppxPackage C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
-  ignore_errors: yes
+#- name: install ubuntu 18.04 for windows
+#  win_shell: Add-AppxPackage C:\\Users\\{{ansible_ssh_user}}\\Documents\\Ubuntu.appx
+#  ignore_errors: yes
 
 - name: enable ssh server
   win_shell: Add-WindowsCapability -Online -Name OpenSSH.Server
