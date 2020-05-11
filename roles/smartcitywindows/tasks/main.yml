@@ -91,7 +91,7 @@
     description: Run a PowerShell script
     actions:
     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File"C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
+      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
     triggers:
     - type: boot
     username: edge
