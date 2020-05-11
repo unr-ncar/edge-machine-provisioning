@@ -80,7 +80,7 @@
     triggers:
     - type: boot
     username: edge
-    password: IMProject
+    password: {{windowpass}}
     logon_type: password
     execution_time_limit: PT0S
     start_when_available: yes
@@ -95,7 +95,7 @@
     triggers:
     - type: boot
     username: edge
-    password: IMProject
+    password: {{windowpass}}
     logon_type: password
     execution_time_limit: PT0S
     start_when_available: yes
