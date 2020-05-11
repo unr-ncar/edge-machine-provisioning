@@ -15,7 +15,7 @@ $IP = "{{deployments[access].ip}}"
 while (1) 
 {
     $filename = "$STATE$CITY$STREET$CROSSSTREET$CORNER$SENSORID`_$SENSORMODEL`_$(Get-Date -format "yyMMddhhmm")-$SITEID`,$DEPLOYMENTID`.pcap"
-    & $tshark -i $interface -a duration:3600 -w C:\Users\edge\Documents\infrastructure\data\pcap\$filename -F pcap -f "src host $IP"
+    & $tshark -i $interface -a duration:3600 -w C:\Users\edge\Documents\infrastructure\data\active\$filename -F pcap -f "src host $IP"
     move C:\Users\edge\Documents\infrastructure\data\active\$filename C:\Users\edge\Documents\infrastructure\data\pcap\$filename
     if ($LastExitCode)
     {
