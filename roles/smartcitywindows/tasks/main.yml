@@ -42,6 +42,22 @@
   win_copy:
     dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\minifi\\process.yml
     src: process.yml
+- name: Create certs.d directory in docker
+  win_file:
+    path: C:\\ProgramData\\Docker\\certs.d
+    state: directory
+- name: creating certs.d in docker
+  win_copy:
+    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-1.rc.unr.edu
+    src: certs
+- name: creating certs.d in docker
+  win_copy:
+    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-1.rc.unr.edu
+    src: certs
+- name: creating certs.d in docker
+  win_copy:
+    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-1.rc.unr.edu
+    src: certs
 - name: "Creating power shell script for network interface 1"
   win_template:
     src: networking.ps1.j2
