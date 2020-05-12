@@ -49,15 +49,15 @@
 - name: creating certs.d in docker
   win_copy:
     dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-1.rc.unr.edu
-    src: certs
+    src: certs/
 - name: creating certs.d in docker
   win_copy:
     dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-2.rc.unr.edu
-    src: certs
+    src: certs/
 - name: creating certs.d in docker
   win_copy:
     dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-3.rc.unr.edu
-    src: certs
+    src: certs/
 - name: "Creating power shell script for network interface 1"
   win_template:
     src: networking.ps1.j2
