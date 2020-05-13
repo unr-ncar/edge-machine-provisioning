@@ -62,6 +62,10 @@
   win_template:
     src: docker-compose-sensor.j2
     dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\docker-compose.yml"
+- name: "Creating docker compose powershell file"
+  win_template:
+    src: run-compose.ps1.j2
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\run-compose.ps1"
 - name: "Creating power shell script for network interface 1"
   win_template:
     src: networking.ps1.j2

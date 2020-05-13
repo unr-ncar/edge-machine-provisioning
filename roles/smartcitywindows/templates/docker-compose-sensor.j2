@@ -36,10 +36,10 @@ services:
     network_mode: "host"
     consul:
         image: consul:1.5
-        command: "agent -retry-join=\"ncar-da-1.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=${HOST_IP} -advertise=${HOST_IP}"
+        command: "agent -retry-join=\"ncar-da-1.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise=${HOST_IP}"
         container_name: consul
         hostname: $HOSTNAME 
-        network_mode: host
+        #network_mode: host
         ports:
             - "8312:8312"
             - "8312:8312/udp"
