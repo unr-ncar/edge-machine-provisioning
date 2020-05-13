@@ -78,6 +78,21 @@
     dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
   vars:
     access: two
+- name: Create task to run a PS script for docker compose on boot
+  win_scheduled_task:
+    name: docker infrastructure
+    description: Run a PowerShell script
+    actions:
+    - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\run-compose.ps1"
+    triggers:
+    - type: boot
+    username: edge
+    password: "{{windowpass}}"
+    logon_type: password
+    execution_time_limit: PT0S
+    start_when_available: yes
+    state: present
 - name: Create task to run a PS script as NETWORK service on boot
   win_scheduled_task:
     name: networking1 automated
