@@ -1,36 +1,88 @@
-version: "{{composeVersion}}"
+version: "3.8"
 services:
-{% for deployment in deployments %}
-    pcap{{ deployment.id }}:
-        image: {{pcapCaptureImage}} #ncar-da-0.rc.unr.edu:5000/pcapcapture
-        #build: ./pcap-processing/pcap
-        network_mode: "host"
+    cadvisor:
+        image: google/cadvisor:latest
+        container_name: cadvisor
+        ports: 
+            - "30000:8080"
+        privileged: true
         volumes:
-            - ./data:/data
+            #- /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /media/fast/docker/:/var/lib/docker:ro
+        depends_on:
+            - consul
+            - registrator
+    minifi:
+        image: ncar-da-1.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
+        #build: ./minifi
+        volumes:
+            - type: bind
+            source: /c/Users/edge/Documents/infrastructure/minifi/process.yml
+            target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
+            - type: bind
+            source: /c/Users/edge/Documents/infrastructure/data
+            target: /data
+            - type: bind
+            source: /c/Users/edge/Documents/infrastructure/minifi/provenance_repository
+            target: /opt/minifi/minifi-0.5.0/provenance_repository
+            - type: bind
+            source: /c/Users/edge/Documents/infrastructure/minifi/flowfile_repository
+            target: /opt/minifi/minifi-0.5.0/flowfile_repository
+            - type: bind
+            source: /c/Users/edge/Documents/infrastructure/minifi/content_repository
+            target: /opt/minifi/minifi-0.5.0/content_repository
+    network_mode: "host"
+    consul:
+        image: consul:1.5
+        command: "agent -retry-join=\"ncar-da-1.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=${HOST_IP} -advertise=${HOST_IP}"
+        container_name: consul
+        hostname: $HOSTNAME 
+        network_mode: host
+        ports:
+            - "8312:8312"
+            - "8312:8312/udp"
+            - "8300:8300"
+            - "8301:8301"
+            - "8302:8302"
+            - "8400:8400"
+            - "8500:8500"
+            - "8600:8600"
+            - "8600:8600/udp"
+    registrator:
+        image: gliderlabs/registrator:latest
+        command: "-internal=false -ip=\"${HOST_IP}\" consul://${HOST_IP}:8500"
+        container_name: registrator
+        hostname: registrator
+        depends_on:
+            - consul
+        restart: on-failure
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock
         environment:
-        - INTERFACE=enp2s0
-        - MIN=3600 # listen to this interface for a default of 60 seconds
-        - IP={{deployment.ip}} #192.168.1.11
-        - STATE=Nevada
-        - CITY=Reno
-        - STREET=Virgina
-        - CROSSSTREET={{deployment.crossStreet}} #15th
-        - CORNER={{deployment.corner}} #SE
-        - SENSORID={{deployment.id}} # int
-        - SENSORMODEL={{deployment.model}} #VLP-16
-        - SITEID={{deployment.siteId}} #0
-        - DEPLOYMENTID={{deployment.deploymentId}} #0,1
-
-    pcl{{ deployment.id }}:
+            - testor=$HOSTNAME
+    filebeat:
+        image: docker.elastic.co/beats/filebeat:7.3.2
+        user: "0"
+        volumes:
+            - type: bind
+            source: /c/Users/edge/Documents/infrastructure/elasticsearch/filebeat.docker.yml
+            target: /usr/share/filebeat/filebeat.yml:ro
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        command: ["filebeat", '-e', '-strict.perms=false']
+{% for index in [one,two] %}
+    pcl{{ deployments[index].id }}:
         image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
         #build: ./pcap-processing/pcl
         network_mode: "host"
         restart: always
         environment:
-        - PCL_IP={{deployment.ip}} #192.168.1.11
-        - PCL_PORT={{deployment.dataPort}}
-        - PCL_CONFIG={{deployment.lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
-        - MQTT_TOPIC={{deployment.mqtttopic}} #test
+        - PCL_IP={{deployments[index].ip}} #192.168.1.11
+        - PCL_PORT={{deployments[index].dataPort}}
+        - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
+        - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
         #- PCAP_FILE=/data/test/test.pcap
         volumes:
             - ./data:/data

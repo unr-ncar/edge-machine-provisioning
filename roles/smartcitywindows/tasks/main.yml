@@ -58,6 +58,10 @@
   win_copy:
     dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-3.rc.unr.edu
     src: certs/
+- name: "Creating docker compose file"
+    win_template:
+      src: docker-compose-sensor.j2
+      dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\docker-compose.yml"
 - name: "Creating power shell script for network interface 1"
   win_template:
     src: networking.ps1.j2
