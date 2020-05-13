@@ -84,8 +84,10 @@ services:
         - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
         - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
         #- PCAP_FILE=/data/test/test.pcap
-        #volumes:
-        #    - ./data:/data
+        volumes:
+            - type: bind
+              source: /c/Users/edge/Documents/infrastructure/data
+              target: /data
         #deploy:
         #  resources: 
         #     limits:
