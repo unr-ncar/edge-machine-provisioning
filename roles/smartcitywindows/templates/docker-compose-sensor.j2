@@ -19,20 +19,20 @@ services:
         #build: ./minifi
         volumes:
             - type: bind
-            source: /c/Users/edge/Documents/infrastructure/minifi/process.yml
-            target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
+              source: /c/Users/edge/Documents/infrastructure/minifi/process.yml
+              target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
             - type: bind
-            source: /c/Users/edge/Documents/infrastructure/data
-            target: /data
+              source: /c/Users/edge/Documents/infrastructure/data
+              target: /data
             - type: bind
-            source: /c/Users/edge/Documents/infrastructure/minifi/provenance_repository
-            target: /opt/minifi/minifi-0.5.0/provenance_repository
+              source: /c/Users/edge/Documents/infrastructure/minifi/provenance_repository
+              target: /opt/minifi/minifi-0.5.0/provenance_repository
             - type: bind
-            source: /c/Users/edge/Documents/infrastructure/minifi/flowfile_repository
-            target: /opt/minifi/minifi-0.5.0/flowfile_repository
+              source: /c/Users/edge/Documents/infrastructure/minifi/flowfile_repository
+              target: /opt/minifi/minifi-0.5.0/flowfile_repository
             - type: bind
-            source: /c/Users/edge/Documents/infrastructure/minifi/content_repository
-            target: /opt/minifi/minifi-0.5.0/content_repository
+              source: /c/Users/edge/Documents/infrastructure/minifi/content_repository
+              target: /opt/minifi/minifi-0.5.0/content_repository
         network_mode: "host"
     consul:
         image: consul:1.5
@@ -67,8 +67,8 @@ services:
         user: "0"
         volumes:
             - type: bind
-            source: /c/Users/edge/Documents/infrastructure/elasticsearch/filebeat.docker.yml
-            target: /usr/share/filebeat/filebeat.yml:ro
+              source: /c/Users/edge/Documents/infrastructure/elasticsearch/filebeat.docker.yml
+              target: /usr/share/filebeat/filebeat.yml:ro
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock:ro
         command: ["filebeat", '-e', '-strict.perms=false']
@@ -84,8 +84,8 @@ services:
         - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
         - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
         #- PCAP_FILE=/data/test/test.pcap
-        volumes:
-            - ./data:/data
+        #volumes:
+        #    - ./data:/data
         #deploy:
         #  resources: 
         #     limits:
