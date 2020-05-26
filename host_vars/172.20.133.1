@@ -1,0 +1,30 @@
+pclProcessingImage: ncar-da-1.rc.unr.edu/pclmqttserve
+pcapCaptureImage: ncar-da-1.rc.unr.edu/pcapcapture
+test: maybe2
+deployments:
+    one: 
+      id: 3 # sensorid
+      ip: 192.168.1.201
+      siteId: 0
+      deploymentId: 0
+      corner: NW
+      model: VLP-32c
+      crossStreet: 15th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: test
+      dataPort: 2368
+      interface: enp2s0
+    two:
+      id: 4
+      ip: 192.168.1.202
+      siteId: 0
+      deploymentId: 1
+      corner: SE
+      model: VLP-32c
+      crossStreet: 15th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: test2
+      dataPort: 2369
+      interface: enp2s0
+ip: 172.20.133.1
+HOSTNAME: ncar-edge-0

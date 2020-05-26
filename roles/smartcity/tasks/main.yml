@@ -52,3 +52,7 @@
     src: configurationfiles/process.yml
     dest:  /home/edge/infrastructure/minifi/process.yml
     
+- name: "Creating docker compose file"
+  template:
+    src: docker-compose.j2
+    dest: "/home/edge/infrastructure/docker-compose.yml"
