@@ -95,7 +95,7 @@ services:
         #     reservations:
         #       memory: 30M
 
-    pcap{{ deployment.id }}:
+    pcap{{ deployments[index].id }}:
         image: {{pcapCaptureImage}} #ncar-da-0.rc.unr.edu/pcapcapture
         #build: ./pcap-processing/pcap
         network_mode: "host"
