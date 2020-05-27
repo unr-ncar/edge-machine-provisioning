@@ -35,10 +35,10 @@ services:
               target: /opt/minifi/minifi-0.5.0/content_repository
         network_mode: "host"
     consul:
-        image: consul:1.5
-        command: "agent -retry-join=\"ncar-da-1.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise=${HOST_IP}"
+        image: consul:1.7.2
+        command: "agent -retry-join=\"ncar-da-1.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise={{ip}}"
         container_name: consul
-        hostname: $HOSTNAME 
+        hostname: {{HOSTNAME}} 
         #network_mode: host
         ports:
             - "8312:8312"
@@ -52,7 +52,7 @@ services:
             - "8600:8600/udp"
     registrator:
         image: gliderlabs/registrator:latest
-        command: "-internal=false -ip=\"${HOST_IP}\" consul://${HOST_IP}:8500"
+        command: "-internal=false -ip=\"{{ip}}\" consul://{{ip}}:8500"
         container_name: registrator
         hostname: registrator
         depends_on:
@@ -61,7 +61,7 @@ services:
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock
         environment:
-            - testor=$HOSTNAME
+            - testor={{HOSTNAME}}
     filebeat:
         image: docker.elastic.co/beats/filebeat:7.3.2
         user: "0"
