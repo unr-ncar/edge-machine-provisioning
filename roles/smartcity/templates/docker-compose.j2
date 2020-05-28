@@ -102,7 +102,7 @@ services:
         volumes:
             - ./data:/data
         environment:
-        - INTERFACE=deployments[index].interface
+        - INTERFACE={{deployments[index].interface}}
         - MIN=3600 # listen to this interface for a default of 60 seconds
         - IP={{deployments[index].ip}} #192.168.1.11
         - STATE=Nevada
