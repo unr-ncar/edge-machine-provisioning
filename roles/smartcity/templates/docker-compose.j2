@@ -19,19 +19,19 @@ services:
         #build: ./minifi
         volumes:
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/minifi/process.yml
+              source: /home/edge/infrastructure/minifi/process.yml
               target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/data
+              source: /home/edge/infrastructure/data
               target: /data
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/minifi/provenance_repository
+              source: /home/edge/infrastructure/minifi/provenance_repository
               target: /opt/minifi/minifi-0.5.0/provenance_repository
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/minifi/flowfile_repository
+              source: /home/edge/infrastructure/minifi/flowfile_repository
               target: /opt/minifi/minifi-0.5.0/flowfile_repository
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/minifi/content_repository
+              source: /home/edge/infrastructure/minifi/content_repository
               target: /opt/minifi/minifi-0.5.0/content_repository
         network_mode: "host"
     consul:
@@ -67,7 +67,7 @@ services:
         user: "0"
         volumes:
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/elasticsearch/filebeat.docker.yml
+              source: /home/edge/infrastructure/elasticsearch/filebeat.docker.yml
               target: /usr/share/filebeat/filebeat.yml:ro
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -86,7 +86,7 @@ services:
         #- PCAP_FILE=/data/test/test.pcap
         volumes:
             - type: bind
-              source: /c/Users/edge/Documents/infrastructure/data
+              source: /home/edge/infrastructure/data
               target: /data
         #deploy:
         #  resources: 
