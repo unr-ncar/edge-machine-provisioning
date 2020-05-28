@@ -303,11 +303,11 @@ Process Groups:
     flowfile expiration: 0 sec
     queue prioritizer class: ''
   - id: 366bc19d-0d49-34cb-0000-000000000000
-    name: UpdateAttribute/success/8cba4b52-016f-1000-0000-0000697729f3
+    name: UpdateAttribute/success/305ec3c1-a168-3252-bc73-f8a74cb405e6
     source id: 94083ee5-8aa3-3c20-0000-000000000000
     source relationship names:
     - success
-    destination id: 8cba4b52-016f-1000-0000-0000697729f3
+    destination id: 305ec3c1-a168-3252-bc73-f8a74cb405e6
     max work queue size: 10000
     max work queue data size: 1 GB
     flowfile expiration: 0 sec
@@ -325,7 +325,7 @@ Process Groups:
   Remote Process Groups:
   - id: 81d431f8-5668-3b29-0000-000000000000
     name: ''
-    url: http://134.197.75.31:30001/nifi
+    url: http://134.197.75.31:30001/nifi,http://134.197.75.32:30001/nifi,http://134.197.75.53:30001/nifi,http://134.197.75.10:30001/nifi,http://134.197.75.56:30001/nifi
     comment: ''
     timeout: 30 sec
     yield period: 10 sec
