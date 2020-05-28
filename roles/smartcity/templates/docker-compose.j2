@@ -36,7 +36,7 @@ services:
         network_mode: "host"
     consul:
         image: consul:1.7.2
-        command: "agent -retry-join=\"ncar-da-1.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise={{ip}}"
+        command: "agent -retry-join=\"134.197.75.10:8301\" -retry-join=\"134.197.75.34:8301\" -retry-join=\"134.197.75.53:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise={{ip}}"
         container_name: consul
         hostname: {{HOSTNAME}} 
         #network_mode: host
