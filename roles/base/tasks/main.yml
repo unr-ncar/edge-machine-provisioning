@@ -32,3 +32,17 @@
   user: name=edge
         groups=sudo,docker
         append=yes
+
+- name: Setup ntp
+  apt:
+    name: ['ntp']
+    state: present
+    update_cache: yes
+    install_recommends: yes
+- name: add unr ntp server to ntp configuration
+  lineinfile:
+    path: /etc/ntp.conf
+    line: server ntp.unr.edu prefer iburst
+    create: no
+  notify: restart ntpd
+
