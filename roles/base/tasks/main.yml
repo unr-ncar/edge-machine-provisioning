@@ -1,5 +1,5 @@
 - name: Install base packages
-  apt: name= {{ item }} state=latest
+  apt: name= {{ item }} state=present
   with_items: 
     - git
     - apt-transport-https
@@ -7,6 +7,9 @@
     - curl
     - software-properties-common
     - gnupg2 
+    - pass
+    - aptitude
+    - gnugpg
     - pass
 
 - name: Add Docker GPG apt Key
@@ -20,7 +23,10 @@
     state: present
 
 - name: Update apt and install docker-ce
-  apt: update_cache=yes name=['docker-ce'] state=latest
+  apt: 
+    update_cache: yes 
+    name: ['docker-ce'] 
+    state: latest
 
 - name: install docker-compose through pip
   pip:
