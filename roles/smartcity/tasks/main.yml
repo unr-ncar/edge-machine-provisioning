@@ -55,4 +55,8 @@
 - name: "Creating docker compose file"
   template:
     src: docker-compose.j2
-    dest: "/home/edge/infrastructure/docker-compose.yml"
+    dest: "/home/edge/infrastructure/docker-compose-infrastructure.yml"
+- name: "create startup script."
+  copy:
+    src: "files/startcapture.sh"
+    dest: "/home/edge/infrastructure/startcapture.sh"
