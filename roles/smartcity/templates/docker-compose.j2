@@ -14,26 +14,26 @@ services:
         depends_on:
             - consul
             - registrator
-    minifi:
-        image: ncar-da-1.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
-        #build: ./minifi
-        volumes:
-            - type: bind
-              source: /home/edge/infrastructure/minifi/process.yml
-              target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
-            - type: bind
-              source: /home/edge/infrastructure/data
-              target: /data
-            - type: bind
-              source: /home/edge/infrastructure/minifi/provenance_repository
-              target: /opt/minifi/minifi-0.5.0/provenance_repository
-            - type: bind
-              source: /home/edge/infrastructure/minifi/flowfile_repository
-              target: /opt/minifi/minifi-0.5.0/flowfile_repository
-            - type: bind
-              source: /home/edge/infrastructure/minifi/content_repository
-              target: /opt/minifi/minifi-0.5.0/content_repository
-        network_mode: "host"
+    #minifi:
+    #    image: ncar-da-1.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
+    #    #build: ./minifi
+    #    volumes:
+    #        - type: bind
+    #          source: /home/edge/infrastructure/minifi/process.yml
+    #          target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
+    #        - type: bind
+    #          source: /home/edge/infrastructure/data
+    #          target: /data
+    #        - type: bind
+    #          source: /home/edge/infrastructure/minifi/provenance_repository
+    #          target: /opt/minifi/minifi-0.5.0/provenance_repository
+    #        - type: bind
+    #          source: /home/edge/infrastructure/minifi/flowfile_repository
+    #          target: /opt/minifi/minifi-0.5.0/flowfile_repository
+    #        - type: bind
+    #          source: /home/edge/infrastructure/minifi/content_repository
+    #          target: /opt/minifi/minifi-0.5.0/content_repository
+    #    network_mode: "host"
     consul:
         image: consul:1.7.2
         command: "agent -retry-join=\"134.197.75.10:8301\" -retry-join=\"134.197.75.34:8301\" -retry-join=\"134.197.75.53:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise={{ip}}"
@@ -73,21 +73,21 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock:ro
         command: ["filebeat", '-e', '-strict.perms=false']
 {% for index in ["one","two"] %}
-    pcl{{ deployments[index].id }}:
-        image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
-        #build: ./pcap-processing/pcl
-        network_mode: "host"
-        restart: always
-        environment:
-        - PCL_IP={{deployments[index].ip}} #192.168.1.11
-        - PCL_PORT={{deployments[index].dataPort}}
-        - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
-        - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
+    #pcl{{ deployments[index].id }}:
+    #    image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
+    #    #build: ./pcap-processing/pcl
+    #    network_mode: "host"
+    #    restart: always
+    #    environment:
+    #    - PCL_IP={{deployments[index].ip}} #192.168.1.11
+    #    - PCL_PORT={{deployments[index].dataPort}}
+    #    - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
+    #    - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
         #- PCAP_FILE=/data/test/test.pcap
-        volumes:
-            - type: bind
-              source: /home/edge/infrastructure/data
-              target: /data
+    #    volumes:
+    #        - type: bind
+    #          source: /home/edge/infrastructure/data
+    #          target: /data
         #deploy:
         #  resources: 
         #     limits:

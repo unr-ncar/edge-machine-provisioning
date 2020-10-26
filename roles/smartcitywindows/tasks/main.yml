@@ -48,16 +48,20 @@
     state: directory
 - name: creating certs.d in docker
   win_copy:
-    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-1.rc.unr.edu
+    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-im-1.rc.unr.edu
     src: certs/
 - name: creating certs.d in docker
   win_copy:
-    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-2.rc.unr.edu
+    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-im-2.rc.unr.edu
     src: certs/
 - name: creating certs.d in docker
   win_copy:
-    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-da-3.rc.unr.edu
+    dest: C:\\ProgramData\\Docker\\certs.d\\ncar-im-3.rc.unr.edu
     src: certs/
+- name: "Copy release folder to windows computer."
+  win_copy:
+    src: Release
+    dest: C:\\Users\{{ansible_ssh_user}}\\Documents\\infrastructure\\
 - name: "Creating docker compose file"
   win_template:
     src: docker-compose-sensor.j2
@@ -78,43 +82,87 @@
     dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
   vars:
     access: two
-- name: Create task to run a PS script for docker compose on boot
+- name: "Creating power shell script for lidar 1"
+  win_template:
+    src: mqtt.ps1.j2
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\mqtt1.ps1"
+  vars:
+    access: one
+- name: "Creating power shell script for lidar 2"
+  win_template:
+    src: mqtt.ps1.j2
+    dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\mqtt2.ps1"
+  vars:
+    access: two
+# - name: Create task to run a PS script for docker compose on boot
+#   win_scheduled_task:
+#     name: docker infrastructure
+#     description: Run a PowerShell script
+#     actions:
+#     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+#       arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\run-compose.ps1"
+#     triggers:
+#     - type: boot
+#     username: edge
+#     password: "{{windowpass}}"
+#     logon_type: password
+#     execution_time_limit: PT0S
+#     start_when_available: yes
+#     state: present
+#- name: Create task to run a PS script as NETWORK service on boot
+#  win_scheduled_task:
+#    name: networking1 automated
+#    description: Run a PowerShell script
+#     actions:
+#     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+#       arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking1.ps1"
+#     triggers:
+#     - type: boot
+#     username: edge
+#     password: "{{windowpass}}"
+#     logon_type: password
+#     execution_time_limit: PT0S
+#     start_when_available: yes
+#     state: present
+# - name: Create task to run a PS script as NETWORK service on boot
+#   win_scheduled_task:
+#     name: networking2 automated
+#     description: Run a PowerShell script
+#     actions:
+#     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+#       arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
+#     triggers:
+#     - type: boot
+#     username: edge
+#     password: "{{windowpass}}"
+#     logon_type: password
+#     execution_time_limit: PT0S
+#     start_when_available: yes
+#     state: present
+- name: Create task to run a PS script as mqtt service on boot 1
   win_scheduled_task:
-    name: docker infrastructure
+     name: mqtt1 automated
+     description: Run a PowerShell script
+     actions:
+     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+       arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\mqtt1.ps1"
+    #  - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+    #    arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\mqtt2.ps1"
+     triggers:
+     - type: boot
+     username: edge
+     password: "{{windowpass}}"
+     logon_type: password
+     execution_time_limit: PT0S
+     start_when_available: yes
+     state: present
+- name: Create task to run a PS script as mqtt service on boot 2
+  win_scheduled_task:
+    name: mqtt2 automated
     description: Run a PowerShell script
     actions:
     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\run-compose.ps1"
-    triggers:
-    - type: boot
-    username: edge
-    password: "{{windowpass}}"
-    logon_type: password
-    execution_time_limit: PT0S
-    start_when_available: yes
-    state: present
-- name: Create task to run a PS script as NETWORK service on boot
-  win_scheduled_task:
-    name: networking1 automated
-    description: Run a PowerShell script
-    actions:
-    - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking1.ps1"
-    triggers:
-    - type: boot
-    username: edge
-    password: "{{windowpass}}"
-    logon_type: password
-    execution_time_limit: PT0S
-    start_when_available: yes
-    state: present
-- name: Create task to run a PS script as NETWORK service on boot
-  win_scheduled_task:
-    name: networking2 automated
-    description: Run a PowerShell script
-    actions:
-    - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\networking2.ps1"
+      arguments: -ExecutionPolicy Unrestricted -NonInteractive -File "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\mqtt2.ps1"
     triggers:
     - type: boot
     username: edge
