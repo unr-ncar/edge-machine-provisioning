@@ -11,6 +11,7 @@
     - aptitude
     - gnugpg
     - pass
+    - autofs
 
 - name: Add Docker GPG apt Key
   apt_key:

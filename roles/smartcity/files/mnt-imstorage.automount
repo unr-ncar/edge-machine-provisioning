@@ -1,0 +1,8 @@
+[Unit]
+Description=Automount Pronghorn Association Storage
+
+[Automount]
+Where=/mnt/storage
+
+[Install]
+WantedBy=multi-user.target

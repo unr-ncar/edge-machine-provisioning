@@ -1,0 +1,13 @@
+[Unit]
+Description=Connection to im storage
+Requires=network-online.target
+After=network-online.service
+
+[Mount]
+What=//134.197.75.75/imshare
+Where=/mnt/storage
+Options=credentials=/home/edge/.smbcredentials,vers=3.0,uid=1000,gid=1000
+Type=cifs
+
+[Install]
+WantedBy=multi-user.target
