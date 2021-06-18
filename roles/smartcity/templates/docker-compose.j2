@@ -1,77 +1,77 @@
-version: "3.8"
+version: "3.3"
 services:
-    cadvisor:
-        image: google/cadvisor:latest
-        container_name: cadvisor
-        ports: 
-            - "30000:8080"
-        privileged: true
-        volumes:
-            #- /:/rootfs:ro
-            - /var/run:/var/run:rw
-            - /sys:/sys:ro
-            - /media/fast/docker/:/var/lib/docker:ro
-        depends_on:
-            - consul
-            - registrator
-    #minifi:
-    #    image: ncar-da-1.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
-    #    #build: ./minifi
-    #    volumes:
-    #        - type: bind
-    #          source: /home/edge/infrastructure/minifi/process.yml
-    #          target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
-    #        - type: bind
-    #          source: /home/edge/infrastructure/data
-    #          target: /data
-    #        - type: bind
-    #          source: /home/edge/infrastructure/minifi/provenance_repository
-    #          target: /opt/minifi/minifi-0.5.0/provenance_repository
-    #        - type: bind
-    #          source: /home/edge/infrastructure/minifi/flowfile_repository
-    #          target: /opt/minifi/minifi-0.5.0/flowfile_repository
-    #        - type: bind
-    #          source: /home/edge/infrastructure/minifi/content_repository
-    #          target: /opt/minifi/minifi-0.5.0/content_repository
-    #    network_mode: "host"
-    consul:
-        image: consul:1.7.2
-        command: "agent -retry-join=\"134.197.75.10:8301\" -retry-join=\"134.197.75.34:8301\" -retry-join=\"134.197.75.53:8301\" -hcl=\"ports {serf_lan=8312}\" -client=0.0.0.0 -advertise={{ip}}"
-        container_name: consul
-        hostname: {{HOSTNAME}} 
-        #network_mode: host
-        ports:
-            - "8312:8312"
-            - "8312:8312/udp"
-            - "8300:8300"
-            - "8301:8301"
-            - "8302:8302"
-            - "8400:8400"
-            - "8500:8500"
-            - "8600:8600"
-            - "8600:8600/udp"
-    registrator:
-        image: gliderlabs/registrator:latest
-        command: "-internal=false -ip=\"{{ip}}\" consul://{{ip}}:8500"
-        container_name: registrator
-        hostname: registrator
-        depends_on:
-            - consul
-        restart: on-failure
-        volumes:
-            - /var/run/docker.sock:/tmp/docker.sock
-        environment:
-            - testor={{HOSTNAME}}
-    filebeat:
-        image: docker.elastic.co/beats/filebeat:7.3.2
-        user: "0"
-        volumes:
-            - type: bind
-              source: /home/edge/infrastructure/elasticsearch/filebeat.docker.yml
-              target: /usr/share/filebeat/filebeat.yml:ro
-            - /var/lib/docker/containers:/var/lib/docker/containers:ro
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-        command: ["filebeat", '-e', '-strict.perms=false']
+  cadvisor:
+     image: google/cadvisor:latest
+     container_name: cadvisor
+     ports:
+      - "30000:8080"
+     privileged: true
+     volumes:
+      #- /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /media/fast/docker/:/var/lib/docker:ro
+     depends_on:
+      - consul
+      - registrator
+  minifi:
+    image: apache/nifi-minifi-cpp:latest #ncar-im-0.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
+    #build: ./minifi
+    volumes:
+      - type: bind
+        source: ${BASE_PATH}/minifi/process.yml
+        target: /opt/minifi/nifi-minifi-cpp-0.6.0/conf/config.yml #minifi-0.5.0
+      - type: bind
+        source: ${BASE_PATH}/data
+        target: /data
+      - type: bind
+        source: ${BASE_PATH}/minifi/provenance_repository
+        target: /opt/minifi/nifi-minifi-cpp-0.6.0/provenance_repository
+      - type: bind
+        source: ${BASE_PATH}/minifi/flowfile_repository
+        target: /opt/minifi/nifi-minifi-cpp-0.6.0/flowfile_repository
+      - type: bind
+        source: ${BASE_PATH}/minifi/content_repository
+        target: /opt/minifi/nifi-minifi-cpp-0.6.0/content_repository
+    network_mode: "host"
+  consul:
+     image: consul:1.5
+     command: "agent -retry-join=\"ncar-im-3.rc.unr.edu:8301\" -hcl=\"ports {serf_lan=8312}\" -client=${HOST_IP} -advertise=${HOST_IP}"
+     container_name: consul
+     hostname: $HOSTNAME
+     network_mode: host
+     ports:
+      - "8312:8312"
+      - "8312:8312/udp"
+      - "8300:8300"
+      - "8301:8301"
+      - "8302:8302"
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+  registrator:
+    image: gliderlabs/registrator:latest
+    command: "-internal=false -ip=\"${HOST_IP}\" consul://${HOST_IP}:8500"
+    container_name: registrator
+    hostname: registrator
+    depends_on:
+      - consul
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    environment:
+    - testor=$HOSTNAME
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.3.2
+    user: "0"
+    volumes:
+      - type: bind
+        source: ${BASE_PATH}/elasticsearch/filebeat.docker.yml
+        target: /usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: ["filebeat", '-e', '-strict.perms=false']
 {% for index in ["one","two"] %}
     #pcl{{ deployments[index].id }}:
     #    image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
@@ -95,19 +95,23 @@ services:
         #     reservations:
         #       memory: 30M
 
-    pcap{{ deployments[index].id }}:
+  pcap{{ deployments[index].id }}:
         image: {{pcapCaptureImage}} #ncar-da-0.rc.unr.edu/pcapcapture
         #build: ./pcap-processing/pcap
         network_mode: "host"
         volumes:
-            - ./data:/data
+          - type: bind
+            source: ${BASE_PATH}/data
+            target: /data
+        #volumes:
+        #    - ./data:/data
         environment:
         - INTERFACE={{deployments[index].interface}}
         - MIN=3600 # listen to this interface for a default of 60 seconds
         - IP={{deployments[index].ip}} #192.168.1.11
         - STATE=Nevada
         - CITY=Reno
-        - STREET=Virgina
+        - STREET=Virginia
         - CROSSSTREET={{deployments[index].crossStreet}} #15th
         - CORNER={{deployments[index].corner}} #SE
         - SENSORID={{deployments[index].id}} # int

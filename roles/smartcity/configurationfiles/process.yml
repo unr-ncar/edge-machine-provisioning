@@ -1,6 +1,6 @@
 MiNiFi Config Version: 3
 Flow Controller:
-  name: edgeflow
+  name: minifi flow
   comment: ''
 Core Properties:
   flow controller graceful shutdown period: 10 sec
@@ -42,309 +42,95 @@ Security Properties:
     key:
     algorithm: PBEWITHMD5AND256BITAES-CBC-OPENSSL
     provider: BC
-Processors: []
+Processors:
+- id: 12f215c2-a066-386e-0000-000000000000
+  name: GetFilePCAP
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size: '10'
+    File Filter: .*\.pcap
+    Ignore Hidden Files: 'true'
+    Input Directory: /data/pcap
+    Keep Source File: 'false'
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 0 sec
+    Minimum File Size: 0 B
+    Path Filter:
+    Polling Interval: 0 sec
+    Recurse Subdirectories: 'true'
+- id: feaf5891-4cc7-3173-0000-000000000000
+  name: UpdateAttribute
+  class: org.apache.nifi.processors.attributes.UpdateAttribute
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Delete Attributes Expression:
+    Stateful Variables Initial Value:
+    Store State: Do not store state
+    canonical-value-lookup-cache-size: '100'
+    meta_deployment_id: ${filename:substringAfterLast('-'):substringBefore('.'):substringAfter(',')}
+    meta_site_id: |
+      ${filename:substringAfterLast('-'):substringBefore('.'):substringBefore(',')}
 Controller Services: []
-Process Groups:
-- id: de2ac793-620f-3557-0000-000000000000
-  name: minifi edge flow
-  Processors:
-  - id: e93756eb-10e3-3049-0000-000000000000
-    name: CompressContent
-    class: org.apache.nifi.processors.standard.CompressContent
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list:
-    - failure
-    Properties:
-      Compression Format: snappy
-      Compression Level: '1'
-      Mode: compress
-      Update Filename: 'true'
-  - id: 59b336a8-3b68-37d7-0000-000000000000
-    name: GetFileBAG
-    class: org.apache.nifi.processors.standard.GetFile
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Batch Size: '10'
-      File Filter: .*\.bag$
-      Ignore Hidden Files: 'true'
-      Input Directory: /data/bag
-      Keep Source File: 'false'
-      Maximum File Age:
-      Maximum File Size:
-      Minimum File Age: 0 sec
-      Minimum File Size: 0 B
-      Path Filter:
-      Polling Interval: 0 sec
-      Recurse Subdirectories: 'true'
-  - id: 4965e31d-3a99-389c-0000-000000000000
-    name: GetFilePCAP
-    class: org.apache.nifi.processors.standard.GetFile
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Batch Size: '10'
-      File Filter: .*\.pcap\.snappy
-      Ignore Hidden Files: 'true'
-      Input Directory: /data/pcap
-      Keep Source File: 'false'
-      Maximum File Age:
-      Maximum File Size:
-      Minimum File Age: 0 sec
-      Minimum File Size: 0 B
-      Path Filter:
-      Polling Interval: 0 sec
-      Recurse Subdirectories: 'true'
-  - id: eddde8c6-14b0-3404-0000-000000000000
-    name: GetFilePCAP
-    class: org.apache.nifi.processors.standard.GetFile
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Batch Size: '10'
-      File Filter: .*\.pcap
-      Ignore Hidden Files: 'true'
-      Input Directory: /data/pcap
-      Keep Source File: 'false'
-      Maximum File Age:
-      Maximum File Size:
-      Minimum File Age: 0 sec
-      Minimum File Size: 0 B
-      Path Filter:
-      Polling Interval: 0 sec
-      Recurse Subdirectories: 'true'
-  - id: 89d4ae2c-ffac-331d-0000-000000000000
-    name: GetFilePCL
-    class: org.apache.nifi.processors.standard.GetFile
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Batch Size: '10'
-      File Filter: .*\.pcd
-      Ignore Hidden Files: 'true'
-      Input Directory: /data/pcl
-      Keep Source File: 'false'
-      Maximum File Age:
-      Maximum File Size:
-      Minimum File Age: 0 sec
-      Minimum File Size: 0 B
-      Path Filter:
-      Polling Interval: 0 sec
-      Recurse Subdirectories: 'true'
-  - id: f73421e2-d453-3572-0000-000000000000
-    name: PutFile
-    class: org.apache.nifi.processors.standard.PutFile
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list:
-    - failure
-    - success
-    Properties:
-      Conflict Resolution Strategy: fail
-      Create Missing Directories: 'true'
-      Directory: /data/pcap
-      Group:
-      Last Modified Time:
-      Maximum File Count:
-      Owner:
-      Permissions:
-  - id: 77f73064-f012-3a56-0000-000000000000
-    name: UpdateAttribute
-    class: org.apache.nifi.processors.attributes.UpdateAttribute
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Delete Attributes Expression:
-      EdgeSentFromID: '0'
-      MinifiProcessor: GenericProcessor
-      Stateful Variables Initial Value:
-      Store State: Do not store state
-      canonical-value-lookup-cache-size: '100'
-  - id: 81588dbf-40a6-3289-0000-000000000000
-    name: UpdateAttribute
-    class: org.apache.nifi.processors.attributes.UpdateAttribute
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Delete Attributes Expression:
-      EdgeSentFromID: '0'
-      MinifiProcessor: GenericProcessor
-      Stateful Variables Initial Value:
-      Store State: Do not store state
-      canonical-value-lookup-cache-size: '100'
-  - id: 94083ee5-8aa3-3c20-0000-000000000000
-    name: UpdateAttribute
-    class: org.apache.nifi.processors.attributes.UpdateAttribute
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Delete Attributes Expression:
-      Stateful Variables Initial Value:
-      Store State: Do not store state
-      canonical-value-lookup-cache-size: '100'
-      meta_deployment_id: ${filename:substringAfterLast('-'):substringBefore('.'):substringAfter(',')}
-      meta_site_id: |
-        ${filename:substringAfterLast('-'):substringBefore('.'):substringBefore(',')}
-  - id: ccfc15d4-9a59-3671-0000-000000000000
-    name: UpdateAttribute
-    class: org.apache.nifi.processors.attributes.UpdateAttribute
-    max concurrent tasks: 1
-    scheduling strategy: TIMER_DRIVEN
-    scheduling period: 0 sec
-    penalization period: 30 sec
-    yield period: 1 sec
-    run duration nanos: 0
-    auto-terminated relationships list: []
-    Properties:
-      Delete Attributes Expression:
-      EdgeSentFromID: '0'
-      MinifiProcessor: GenericProcessor
-      Stateful Variables Initial Value:
-      Store State: Do not store state
-      canonical-value-lookup-cache-size: '100'
-  Controller Services: []
-  Process Groups: []
-  Input Ports: []
-  Output Ports: []
-  Funnels: []
-  Connections:
-  - id: 8f2456da-ea3f-3429-0000-000000000000
-    name: CompressContent/success/PutFile
-    source id: e93756eb-10e3-3049-0000-000000000000
-    source relationship names:
-    - success
-    destination id: f73421e2-d453-3572-0000-000000000000
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  - id: 763f21f6-75d3-381c-0000-000000000000
-    name: GetFileBAG/success/UpdateAttribute
-    source id: 59b336a8-3b68-37d7-0000-000000000000
-    source relationship names:
-    - success
-    destination id: 77f73064-f012-3a56-0000-000000000000
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  - id: c43303c4-3e79-31d7-0000-000000000000
-    name: GetFilePCAP/success/UpdateAttribute
-    source id: 4965e31d-3a99-389c-0000-000000000000
-    source relationship names:
-    - success
-    destination id: 94083ee5-8aa3-3c20-0000-000000000000
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  - id: fe6d6c0e-79df-361c-0000-000000000000
-    name: GetFilePCAP/success/UpdateAttribute
-    source id: eddde8c6-14b0-3404-0000-000000000000
-    source relationship names:
-    - success
-    destination id: 81588dbf-40a6-3289-0000-000000000000
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  - id: 8cdf7f17-eed8-372b-0000-000000000000
-    name: GetFilePCL/success/UpdateAttribute
-    source id: 89d4ae2c-ffac-331d-0000-000000000000
-    source relationship names:
-    - success
-    destination id: ccfc15d4-9a59-3671-0000-000000000000
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  - id: 366bc19d-0d49-34cb-0000-000000000000
-    name: UpdateAttribute/success/305ec3c1-a168-3252-bc73-f8a74cb405e6
-    source id: 94083ee5-8aa3-3c20-0000-000000000000
-    source relationship names:
-    - success
-    destination id: 305ec3c1-a168-3252-bc73-f8a74cb405e6
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  - id: 204512d3-d3c6-3a90-0000-000000000000
-    name: UpdateAttribute/success/CompressContent
-    source id: 81588dbf-40a6-3289-0000-000000000000
-    source relationship names:
-    - success
-    destination id: e93756eb-10e3-3049-0000-000000000000
-    max work queue size: 10000
-    max work queue data size: 1 GB
-    flowfile expiration: 0 sec
-    queue prioritizer class: ''
-  Remote Process Groups:
-  - id: 81d431f8-5668-3b29-0000-000000000000
-    name: ''
-    url: http://134.197.75.31:30001/nifi,http://134.197.75.32:30001/nifi,http://134.197.75.53:30001/nifi,http://134.197.75.10:30001/nifi,http://134.197.75.56:30001/nifi
-    comment: ''
-    timeout: 30 sec
-    yield period: 10 sec
-    transport protocol: RAW
-    proxy host: ''
-    proxy port: ''
-    proxy user: ''
-    proxy password: ''
-    local network interface: ''
-    Input Ports:
-    - id: 305ec3c1-a168-3252-bc73-f8a74cb405e6
-      name: From Pcap
-      comment: ''
-      max concurrent tasks: 1
-      use compression: false
-    Output Ports: []
+Process Groups: []
 Input Ports: []
 Output Ports: []
 Funnels: []
-Connections: []
-Remote Process Groups: []
-NiFi Properties Overrides: {}
+Connections:
+- id: cf2747e2-aed0-31bf-0000-000000000000
+  name: GetFilePCAP/success/UpdateAttribute
+  source id: 12f215c2-a066-386e-0000-000000000000
+  source relationship names:
+  - success
+  destination id: feaf5891-4cc7-3173-0000-000000000000
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- id: c0da9cbc-79f1-3438-0000-000000000000
+  name: UpdateAttribute/success/305ec3c1-a168-3252-bc73-f8a74cb405e6
+  source id: feaf5891-4cc7-3173-0000-000000000000
+  source relationship names:
+  - success
+  destination id: 305ec3c1-a168-3252-bc73-f8a74cb405e6
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+Remote Process Groups:
+- id: 1038ed80-2160-335e-0000-000000000000
+  name: ''
+  url: http://134.197.75.32:30001/nifi,http://134.197.75.76:30001/nifi,http://134.197.75.77:30001/nifi,http://134.197.75.78:30001/nifi,http://134.197.75.79:30001/nifi
+  comment: ''
+  timeout: 30 sec
+  yield period: 10 sec
+  transport protocol: RAW
+  proxy host: ''
+  proxy port: ''
+  proxy user: ''
+  proxy password: ''
+  local network interface: ''
+  Input Ports:
+  - id: 305ec3c1-a168-3252-bc73-f8a74cb405e6
+    name: From Pcap
+    comment: ''
+    max concurrent tasks: 1
+    use compression: false
+  Output Ports: []
+NiFi Properties Overrides:
+  nifi.content.repository.always.sync: "true"
+  nifi.flowfile.repository.always.sync: "true"
+
