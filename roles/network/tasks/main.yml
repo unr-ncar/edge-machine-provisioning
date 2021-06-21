@@ -16,7 +16,10 @@
     - 443 # ssl
     - 22 # ssh
     - 30001
-
+    - 139
+    - 445
+    - 9100
+            
 - name: "enable udp ports"
   ufw:
     rule: allow
@@ -32,6 +35,9 @@
     - 8309
     - 8022
     - 30001
+    - 137
+    - 138
+    - 9100
 
 - name: "enable ufw"
   ufw:

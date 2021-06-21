@@ -1,0 +1,11 @@
+- name: copy cc* snmp service to edge device
+  win_copy:
+      src: snmp
+      dest: "C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\"
+- name: create a win nssm service for starting up snmp data capture
+  win_nssm:
+    name: ccsnmpcapture
+    application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+    app_parameters_free_form: -executionpolicy bypass -File C:\Users\{{ansible_ssh_user}}\Documents\infrastructure\snmp\snmp.ps1
+    start_mode: manual
+

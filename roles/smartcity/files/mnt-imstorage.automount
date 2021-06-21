@@ -1,8 +1,8 @@
 [Unit]
-Description=Automount Pronghorn Association Storage
+Description=Automount RCDC
 
 [Automount]
-Where=/mnt/storage
+Where=/mnt/imstorage
 
 [Install]
 WantedBy=multi-user.target

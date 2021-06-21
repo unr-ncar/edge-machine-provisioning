@@ -5,7 +5,7 @@ After=network-online.service
 
 [Mount]
 What=//134.197.75.75/imshare
-Where=/mnt/storage
+Where=/mnt/imstorage
 Options=credentials=/home/edge/.smbcredentials,vers=3.0,uid=1000,gid=1000
 Type=cifs
 

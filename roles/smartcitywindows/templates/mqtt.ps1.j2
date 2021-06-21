@@ -1,0 +1,16 @@
+
+$application = 'C:\Users\edge\Documents\infrastructure\Release\project.exe'
+#$(Get-Date -format "yy-MM-dd-hh-mm")
+$interface = "{{deployments[access].interface}}"
+$STATE = "NV"
+$CITY = "Reno"
+$STREET = "Virginia"
+$CROSSSTREET = "{{deployments[access].crossStreet}}"
+$SENSORMODEL = "{{deployments[access].model}}" #"VLP32-c"
+$CORNER = "{{deployments[access].corner}}"
+$SITEID = "{{deployments[access].siteId}}"
+$DEPLOYMENTID = "{{deployments[access].deploymentId}}"
+$SENSORID = "{{deployments[access].id}}"
+$IP = "{{deployments[access].ip}}"
+
+& C:\Users\edge\Documents\infrastructure\Release\project.exe -port {{deployments[access].dataPort}} -topic test$CROSSSTREET$STREET$CORNER -ip $IP -config C:\Users\edge\Documents\infrastructure\Release\{{deployments[access].model}}.xml

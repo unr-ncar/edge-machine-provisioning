@@ -15,24 +15,24 @@ services:
       - consul
       - registrator
   minifi:
-    image: apache/nifi-minifi-cpp:latest #ncar-im-0.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
+    image: ncar-im-0.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
     #build: ./minifi
     volumes:
       - type: bind
         source: ${BASE_PATH}/minifi/process.yml
-        target: /opt/minifi/nifi-minifi-cpp-0.6.0/conf/config.yml #minifi-0.5.0
+        target: /opt/minifi/minifi-0.5.0/conf/config.yml #minifi-0.5.0
       - type: bind
-        source: ${BASE_PATH}/data
+        source: /data
         target: /data
       - type: bind
         source: ${BASE_PATH}/minifi/provenance_repository
-        target: /opt/minifi/nifi-minifi-cpp-0.6.0/provenance_repository
+        target: /opt/minifi/minifi-0.5.0/provenance_repository
       - type: bind
         source: ${BASE_PATH}/minifi/flowfile_repository
-        target: /opt/minifi/nifi-minifi-cpp-0.6.0/flowfile_repository
+        target: /opt/minifi/minifi-0.5.0/flowfile_repository
       - type: bind
         source: ${BASE_PATH}/minifi/content_repository
-        target: /opt/minifi/nifi-minifi-cpp-0.6.0/content_repository
+        target: /opt/minifi/minifi-0.5.0/content_repository
     network_mode: "host"
   consul:
      image: consul:1.5
@@ -72,6 +72,22 @@ services:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: ["filebeat", '-e', '-strict.perms=false']
+  node-exporter:
+    image: quay.io/prometheus/node-exporter
+    ports:
+      - '9100:9100'
+    command:
+       - '--path.rootfs=/host'
+       - "--collector.textfile.directory=/text"
+       - '--path.procfs=/host/proc'
+       - '--path.sysfs=/host/sys'
+       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+            - /:/rootfs:ro
+            - /proc:/host/proc:ro
+            - /sys:/host/sys:ro
+            - ${BASE_PATH}/text:/text
+    network_mode: "host"
 {% for index in ["one","two"] %}
     #pcl{{ deployments[index].id }}:
     #    image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
@@ -101,7 +117,7 @@ services:
         network_mode: "host"
         volumes:
           - type: bind
-            source: ${BASE_PATH}/data
+            source: /data
             target: /data
         #volumes:
         #    - ./data:/data

@@ -29,6 +29,11 @@
     name: wireshark
     state: present
 
+- name: Install nssm Non-Sucking Service Manager
+  win_chocolatey:
+    name: nssm
+    state: present
+
 - name: Install Microsoft Subsystem for Linux
   win_optional_feature:
     name: Microsoft-Windows-Subsystem-Linux

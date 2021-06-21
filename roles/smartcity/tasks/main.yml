@@ -1,8 +1,10 @@
 #- name: Get docker registry certificates from kubernetes
 - name: Ensures /etc/docker/certs.d/ncar-da-1.rc.unr.edu dir exists
+  become: yes
   file: path=/etc/docker/certs.d/ncar-da-1.rc.unr.edu state=directory
 
 - name: Pass over ssl certificates for private docker registry
+  become: yes
   copy:
     src: certs/
     dest: /etc/docker/certs.d/ncar-da-1.rc.unr.edu/
@@ -12,16 +14,23 @@
     path: /home/edge/infrastructure
     state: directory
 - name: Create a data directory if it does not exist
+  become: yes
   file:
-    path: /home/edge/infrastructure/data
+    owner: edge
+    group: edge
+    path: /data
     state: directory
-- name: Create a data directory if it does not exist
+- name: Create a data/pcap directory if it does not exist
   file:
-    path: /home/edge/infrastructure/data/active
+    owner: edge
+    group: edge
+    path: /data/active
     state: directory
-- name: Create a data directory if it does not exist
+- name: Create a data/pcap directory if it does not exist
   file:
-    path: /home/edge/infrastructure/data/pcap
+    owner: edge
+    group: edge
+    path: /data/pcap
     state: directory
 - name: Create a elasticsearch directory if it does not exist
   file:
@@ -43,6 +52,10 @@
   file:
     path: /home/edge/infrastructure/minifi/provenance_repository
     state: directory
+- name: create text directory if it does not exist
+  file:  
+    path: /home/edge/infrastructure/text
+    state: directory
 - name: Adding configuration files to edge device
   copy: 
     src: configurationfiles/filebeat.docker.yml
@@ -60,3 +73,53 @@
   copy:
     src: "files/startcapture.sh"
     dest: "/home/edge/infrastructure/startcapture.sh"
+- name: "Creating smb credentials file."
+  template:
+    src: smb-credentials.j2
+    dest: "/home/edge/.smbcredentials"
+
+- name: "copy over automount for im storage"
+  become: yes
+  copy:
+    src: "files/mnt-imstorage.automount"
+    dest: "/etc/systemd/system/mnt-imstorage.automount"
+
+- name: "copy over mount for im storage"
+  become: yes
+  copy:
+    src: "files/mnt-imstorage.mount"
+    dest: "/etc/systemd/system/mnt-imstorage.mount"
+
+- name: "enable mnt-imstorage.mount"
+  become: yes
+  systemd:
+    name: mnt-imstorage.mount
+    state: started
+    enabled: yes
+
+- name: "enable mnt-imstorage.automount"
+  become: yes
+  systemd:
+    name: mnt-imstorage.automount
+    #state: started
+    enabled: yes
+
+- name: "adding move files script"
+  copy:
+    src: "files/movefiles.sh"
+    dest: "/home/edge/scripts/movefiles.sh"
+    owner: "edge"
+    group: "edge"
+
+- name: "copying smartmon.sh into scripts directory"
+  copy:
+    src: "files/smartmon.sh"
+    dest: "/home/edge/scripts/smartmon.sh"
+    mode: u+rwx
+
+- name: "adding cronjob in root"
+  become: yes
+  cron:
+    name: "grabbing smart health"
+    minute: "*/5"
+    job: "/home/edge/scripts/smartmon.sh > /home/edge/infrastructure/text/smart_metrics.prom"

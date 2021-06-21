@@ -9,11 +9,11 @@
   #    private: yes 
   vars_files:
   - vars/main.yml
-  become: yes
+  #become: yes
   gather_facts: False
   roles:
-    - base
-    - network
+    - { role: base, become: yes }
+    - { role: network, become: yes }
     - smartcity
     # only enable this if you need to mass configure the networking of the edge network 
     # be careful with this one
