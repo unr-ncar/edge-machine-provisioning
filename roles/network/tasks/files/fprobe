@@ -1,0 +1,7 @@
+#fprobe default configuration file
+
+INTERFACE="enp1s0"
+FLOW_COLLECTOR="localhost:2054 134.197.95.199:6343"
+
+#fprobe can't distinguish IP packet from other (e.g. ARP)
+OTHER_ARGS="-fip"

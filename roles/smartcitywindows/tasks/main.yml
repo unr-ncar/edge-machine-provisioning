@@ -58,10 +58,12 @@
   win_copy:
     dest: C:\\ProgramData\\Docker\\certs.d\\ncar-im-3.rc.unr.edu
     src: certs/
+
 #- name: "Copy release folder to windows computer."
 #  win_copy:
 #    src: Release
 #    dest: C:\\Users\{{ansible_ssh_user}}\\Documents\\infrastructure\\
+
 - name: "Creating docker compose file"
   win_template:
     src: docker-compose-sensor.j2
@@ -171,3 +173,25 @@
 #    execution_time_limit: PT0S
 #    start_when_available: yes
 #    state: present
+
+- name: add startDocker.ps1 to edge computer
+  win_copy:
+    dest: C:\\Users\\{{ansible_ssh_user}}\\Documents\\infrastructure\\startDocker.ps1
+    src: startDocker.ps1
+
+- name: Create task to run docker startup script
+  win_scheduled_task:
+     name: docker startup
+     description: Starts docker on startup
+     actions:
+     - path: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+       arguments: -ExecutionPolicy Unrestricted -NonInteractive -File C:\Users\{{ansible_ssh_user}}\Documents\infrastructure\startDocker.ps1
+     triggers:
+     - type: boot
+     username: edge
+     password: "{{windowpass}}"
+     logon_type: password
+     execution_time_limit: PT0S
+     start_when_available: yes
+     state: present
+

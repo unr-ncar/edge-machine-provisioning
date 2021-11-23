@@ -60,6 +60,12 @@
   copy: 
     src: configurationfiles/filebeat.docker.yml
     dest:  /home/edge/infrastructure/elasticsearch/filebeat.docker.yml
+
+- name: Adding configuration files to edge device
+  copy: 
+    src: configurationfiles/filebeat.netflow.yml
+    dest:  /home/edge/infrastructure/elasticsearch/filebeat.netflow.yml
+
 - name: copying configuration files to edge device
   copy: 
     src: configurationfiles/process.yml

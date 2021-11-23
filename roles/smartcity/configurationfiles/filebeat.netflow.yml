@@ -1,0 +1,21 @@
+filebeat.modules:
+- module: netflow
+  log:
+    enabled: true
+    var:
+      netflow_host: 0.0.0.0
+      netflow_port: 2054
+
+setup.template:
+    pattern: "filebeatnetflow-*"
+    name: "filebeatnetflow"
+
+setup.ilm:
+    enabled: auto
+    policy_name: filebeatnetflow
+    rollover_alias: filebeatnetflow
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:ncar-im-0.rc.unr.edu:30549}'
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'

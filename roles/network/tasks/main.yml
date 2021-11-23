@@ -42,3 +42,23 @@
 - name: "enable ufw"
   ufw:
     state: enabled
+
+
+- name: "Adding a entry into /etc/default/fprobe"
+  copy:
+    src: fprobe
+    dest: /etc/default/fprobe
+- name: "stop fprobe"  
+  service:
+    name: fprobe
+    state: stopped
+    enabled: yes
+- name: Pause for 10 seconds to allow service to restart
+  pause:
+    seconds: 10
+
+- name: "start fprobe"  
+  service:
+    name: fprobe
+    state: started
+    enabled: yes
