@@ -96,12 +96,17 @@
     src: "files/mnt-imstorage.mount"
     dest: "/etc/systemd/system/mnt-imstorage.mount"
 
-- name: "enable mnt-imstorage.mount"
-  become: yes
-  systemd:
-    name: mnt-imstorage.mount
-    state: started
-    enabled: yes
+#- name: "enable mnt-imstorage.mount"
+#  become: yes
+#  systemd:
+#    name: mnt-imstorage.automount
+#    enabled: yes
+    
+#- name: "start mnt-imstorage.automount"
+#   become: yes
+#   systemd:
+#    name: mnt-imstorage.automount
+#    state: started
 
 - name: "enable mnt-imstorage.automount"
   become: yes
@@ -109,6 +114,11 @@
     name: mnt-imstorage.automount
     #state: started
     enabled: yes
+
+- name: "create scripts directory"
+  file:
+    path: "/home/edge/scripts/"
+    state: directory
 
 - name: "adding move files script"
   copy:

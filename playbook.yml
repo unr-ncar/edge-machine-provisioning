@@ -3,7 +3,7 @@
 
   vars_files:
   - vars/main.yml
-  #become: yes
+  become: yes
   gather_facts: False
   roles:
     - { role: base, become: yes }

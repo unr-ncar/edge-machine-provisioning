@@ -27,6 +27,7 @@
     - pass
     - aptitude
     - autofs
+    - python3-pip
 
 - name: Add Docker GPG apt Key
   apt_key:
@@ -43,6 +44,11 @@
     update_cache: yes 
     name: ['docker-ce'] 
     state: latest
+
+- name: update pip
+  pip:
+      name: pip
+      state: latest
 
 - name: install docker-compose through pip
   pip:
