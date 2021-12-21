@@ -40,16 +40,16 @@ services:
      container_name: consul
      hostname: $HOSTNAME
      network_mode: host
-     ports:
-      - "8312:8312"
-      - "8312:8312/udp"
-      - "8300:8300"
-      - "8301:8301"
-      - "8302:8302"
-      - "8400:8400"
-      - "8500:8500"
-      - "8600:8600"
-      - "8600:8600/udp"
+     #ports:
+     # - "8312:8312"
+     # - "8312:8312/udp"
+     # - "8300:8300"
+     # - "8301:8301"
+     # - "8302:8302"
+     # - "8400:8400"
+     # - "8500:8500"
+     # - "8600:8600"
+     # - "8600:8600/udp"
   registrator:
     image: gliderlabs/registrator:latest
     command: "-internal=false -ip=\"${HOST_IP}\" consul://${HOST_IP}:8500"
@@ -85,8 +85,8 @@ services:
     command: ["filebeat", '-e', '-strict.perms=false']
   node-exporter:
     image: quay.io/prometheus/node-exporter
-    ports:
-      - '9100:9100'
+    #ports:
+    #  - '9100:9100'
     command:
        - '--path.rootfs=/host'
        - "--collector.textfile.directory=/text"
@@ -100,21 +100,23 @@ services:
             - ${BASE_PATH}/text:/text
     network_mode: "host"
 {% for index in ["one","two"] %}
-    #pcl{{ deployments[index].id }}:
-    #    image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
-    #    #build: ./pcap-processing/pcl
-    #    network_mode: "host"
-    #    restart: always
-    #    environment:
-    #    - PCL_IP={{deployments[index].ip}} #192.168.1.11
-    #    - PCL_PORT={{deployments[index].dataPort}}
-    #    - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
-    #    - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
+  pcl{{ deployments[index].id }}:
+        image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
+        #build: ./pcap-processing/pcl
+        network_mode: "host"
+        restart: always
+        environment:
+        - PCL_IP={{deployments[index].ip}} #192.168.1.11
+        - PCL_PORT={{deployments[index].dataPort}}
+        - PCL_CONFIG={{deployments[index].lidarConfig}} #/velodyne/build/VLP-16.xml -- this is stored in the docker container TODO: Need to make stored elsewhere!?
+        - MQTT_TOPIC={{deployments[index].mqtttopic}} #test
+        - MQTT_IP=134.197.75.31
+        - MQTT_PORT=30041
         #- PCAP_FILE=/data/test/test.pcap
-    #    volumes:
-    #        - type: bind
-    #          source: /home/edge/infrastructure/data
-    #          target: /data
+        volumes:
+            - type: bind
+              source: /home/edge/infrastructure/data
+              target: /data
         #deploy:
         #  resources: 
         #     limits:
