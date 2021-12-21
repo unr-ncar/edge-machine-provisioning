@@ -9,7 +9,7 @@ deployments:
       model: VLP-32C
       crossStreet: 15th
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: test
+      mqtttopic: /IM/Test/22/SE
       dataPort: 2368
       interface: enp7s0
     two:
@@ -21,7 +21,7 @@ deployments:
       model: VLP-32C
       crossStreet: 15th
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: test2
+      mqtttopic: /IM/Test/22/NW
       dataPort: 2368
       interface: enp8s0
 ip: 134.197.29.174
