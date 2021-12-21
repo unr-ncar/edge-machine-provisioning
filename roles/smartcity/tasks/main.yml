@@ -36,53 +36,78 @@
   file:
     path: /home/edge/infrastructure/elasticsearch
     state: directory
+    owner: edge
+    group: edge
 - name: Create a directory if it does not exist
   file:
     path: /home/edge/infrastructure/minifi
     state: directory
+    owner: edge
+    group: edge
 - name: Create a directory if it does not exist
   file:
     path: /home/edge/infrastructure/minifi/content_repository
     state: directory
+    owner: edge
+    group: edge
 - name: Create a directory if it does not exist
   file:
     path: /home/edge/infrastructure/minifi/flowfile_repository
     state: directory
+    owner: edge
+    group: edge
 - name: Create a directory if it does not exist
   file:
     path: /home/edge/infrastructure/minifi/provenance_repository
     state: directory
+    owner: edge
+    group: edge
 - name: create text directory if it does not exist
   file:  
     path: /home/edge/infrastructure/text
     state: directory
+    owner: edge
+    group: edge
 - name: Adding configuration files to edge device
   copy: 
     src: configurationfiles/filebeat.docker.yml
     dest:  /home/edge/infrastructure/elasticsearch/filebeat.docker.yml
+    owner: edge
+    group: edge
 
 - name: Adding configuration files to edge device
   copy: 
     src: configurationfiles/filebeat.netflow.yml
     dest:  /home/edge/infrastructure/elasticsearch/filebeat.netflow.yml
+    owner: edge
+    group: edge
 
 - name: copying configuration files to edge device
   copy: 
     src: configurationfiles/process.yml
     dest:  /home/edge/infrastructure/minifi/process.yml
+    owner: edge
+    group: edge
     
 - name: "Creating docker compose file"
   template:
     src: docker-compose.j2
     dest: "/home/edge/infrastructure/docker-compose-infrastructure.yml"
+    owner: edge
+    group: edge
 - name: "create startup script."
   copy:
     src: "files/startcapture.sh"
     dest: "/home/edge/infrastructure/startcapture.sh"
+    owner: edge
+    group: edge
+    mode: u+rwx
 - name: "Creating smb credentials file."
   template:
     src: smb-credentials.j2
     dest: "/home/edge/.smbcredentials"
+    owner: edge
+    group: edge
 
 - name: "copy over automount for im storage"
   become: yes
@@ -119,6 +144,8 @@
   file:
     path: "/home/edge/scripts/"
     state: directory
+    owner: edge
+    group: edge
 
 - name: "adding move files script"
   copy:
