@@ -11,6 +11,7 @@ deployments:
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Test/22/SE
       dataPort: 2360
+      nmeaPort: 8308
       interface: enp7s0
     two:
       id: 4
@@ -23,6 +24,7 @@ deployments:
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Test/22/NW
       dataPort: 2370
+      nmeaPort: 8318
       interface: enp8s0
 ip: 172.20.133.22
 HOSTNAME: ncar-edge-22
