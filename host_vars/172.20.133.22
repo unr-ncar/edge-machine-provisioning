@@ -10,7 +10,7 @@ deployments:
       crossStreet: College
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Test/22/SE
-      dataPort: 2368
+      dataPort: 2360
       interface: enp7s0
     two:
       id: 4
@@ -22,7 +22,7 @@ deployments:
       crossStreet: College
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Test/22/NW
-      dataPort: 2368
+      dataPort: 2370
       interface: enp8s0
 ip: 172.20.133.22
 HOSTNAME: ncar-edge-22
