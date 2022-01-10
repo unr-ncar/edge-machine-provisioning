@@ -1,13 +1,13 @@
 #- name: Get docker registry certificates from kubernetes
-- name: Ensures /etc/docker/certs.d/ncar-da-1.rc.unr.edu dir exists
+- name: Ensures /etc/docker/certs.d/ncar-im-0.rc.unr.edu dir exists
   become: yes
-  file: path=/etc/docker/certs.d/ncar-da-1.rc.unr.edu state=directory
+  file: path=/etc/docker/certs.d/ncar-im-0.rc.unr.edu state=directory
 
 - name: Pass over ssl certificates for private docker registry
   become: yes
   copy:
     src: certs/
-    dest: /etc/docker/certs.d/ncar-da-1.rc.unr.edu/
+    dest: /etc/docker/certs.d/ncar-im-0.rc.unr.edu/
 
 - name: Create a infrastructure directory if it does not exist
   file:
