@@ -55,7 +55,7 @@ Processors:
   auto-terminated relationships list: []
   Properties:
     Batch Size: '10'
-    File Filter: .*\.pcap
+    File Filter: .*\.pcap|.*\.gz
     Ignore Hidden Files: 'true'
     Input Directory: /data/pcap
     Keep Source File: 'false'
