@@ -11,3 +11,9 @@
    ansible-playbook playbook.yml -kK --ask-vault-pass
 
 ```
+
+``` bash
+
+   # ansible galaxy packages to install
+   ansible-galaxy collection install ansible.posix
+```
