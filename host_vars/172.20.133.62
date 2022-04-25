@@ -1,30 +1,30 @@
 test: maybe2
 deployments:
     one: 
-      id: 5 # sensorid
-      ip: 172.20.133.50
-      siteId: 2
+      id: 7 # sensorid
+      ip: 172.20.133.70
+      siteId: 3
       deploymentId: 1
       corner: SE
       model: VLP-32C
       crossStreet: Artemesia
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Test/42/SE
-      dataPort: 2380
-      nmeaPort: 8328
+      mqtttopic: /IM/Test/62/SE
+      dataPort: 2400
+      nmeaPort: 8348
       interface: enp7s0
     two:
-      id: 6
-      ip: 172.20.133.51
-      siteId: 2
+      id: 8
+      ip: 172.20.133.71
+      siteId: 3
       deploymentId: 0
       corner: NW
       model: VLP-32C
       crossStreet: Artemesia
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Test/42/NW
-      dataPort: 2390
-      nmeaPort: 8338
+      mqtttopic: /IM/Test/62/NW
+      dataPort: 2410
+      nmeaPort: 8358
       interface: enp8s0
-ip: 172.20.133.42
-HOSTNAME: ncar-edge-42
+ip: 172.20.133.62
+HOSTNAME: ncar-edge-62
