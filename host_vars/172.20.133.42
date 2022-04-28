@@ -5,11 +5,11 @@ deployments:
       ip: 172.20.133.50
       siteId: 2
       deploymentId: 1
-      corner: SE
+      corner: SW
       model: VLP-32C
       crossStreet: Artemesia
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Test/42/SE
+      mqtttopic: /IM/Test/42/SW
       dataPort: 2380
       nmeaPort: 8328
       interface: enp7s0
@@ -18,11 +18,11 @@ deployments:
       ip: 172.20.133.51
       siteId: 2
       deploymentId: 0
-      corner: NW
+      corner: NE
       model: VLP-32C
       crossStreet: Artemesia
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Test/42/NW
+      mqtttopic: /IM/Test/42/NE
       dataPort: 2390
       nmeaPort: 8338
       interface: enp8s0
