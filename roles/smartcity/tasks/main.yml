@@ -114,6 +114,13 @@
     owner: edge
     group: edge
     mode: u+rwx
+- name: "create health script."
+  copy:
+    src: "files/starthealthservices.sh"
+    dest: "/home/edge/infrastructure/starthealthservices.sh"
+    owner: edge
+    group: edge
+    mode: u+rwx
 - name: "Creating smb credentials file."
   template:
     src: smb-credentials.j2
