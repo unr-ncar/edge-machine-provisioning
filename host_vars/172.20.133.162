@@ -1,0 +1,30 @@
+test: maybe2
+deployments:
+    one: 
+      id: 11 # sensorid
+      ip: 172.20.133.170
+      siteId: 5
+      deploymentId: 1
+      corner: SW
+      model: VLP-32C
+      crossStreet: 5th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/Test/162/SW
+      dataPort: 2480
+      nmeaPort: 8428
+      interface: enp7s0
+    two:
+      id: 12
+      ip: 172.20.133.171
+      siteId: 5
+      deploymentId: 0
+      corner: NE
+      model: VLP-32C
+      crossStreet: 5th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/Test/162/NE
+      dataPort: 2490
+      nmeaPort: 8438
+      interface: enp8s0
+ip: 172.20.133.162
+HOSTNAME: ncar-edge-162

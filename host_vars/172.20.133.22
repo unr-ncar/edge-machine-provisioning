@@ -10,7 +10,7 @@ deployments:
       crossStreet: College
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Test/22/NE
-      dataPort: 2370
+      dataPort: 2350
       nmeaPort: 8318
       interface: enp7s0
     two:
@@ -23,7 +23,7 @@ deployments:
       crossStreet: College
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Test/22/SW
-      dataPort: 2360
+      dataPort: 2340
       nmeaPort: 8308
       interface: enp8s0
 ip: 172.20.133.22

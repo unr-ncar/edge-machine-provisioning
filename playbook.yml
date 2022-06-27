@@ -1,6 +1,6 @@
 - name: "Linux Provision"
   hosts: edgelinux
-
+  ignore_errors: yes
   vars_files:
   - vars/main.yml
   become: yes

@@ -6,6 +6,7 @@ services:
      ports:
       - "30000:8080"
      privileged: true
+     restart: always
      volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -40,6 +41,7 @@ services:
      container_name: consul
      hostname: $HOSTNAME
      network_mode: host
+     restart: always
      #ports:
      # - "8312:8312"
      # - "8312:8312/udp"
