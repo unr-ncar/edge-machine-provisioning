@@ -7,9 +7,9 @@ deployments:
       deploymentId: 1
       corner: NE
       model: VLP-32C
-      crossStreet: Artemesia
+      crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Test/62/NE
+      mqtttopic: /IM/9th/62/NE
       dataPort: 2400
       nmeaPort: 8348
       interface: enp7s0
@@ -20,9 +20,9 @@ deployments:
       deploymentId: 0
       corner: SW
       model: VLP-32C
-      crossStreet: Artemesia
+      crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Test/62/SW
+      mqtttopic: /IM/9th/62/SW
       dataPort: 2410
       nmeaPort: 8358
       interface: enp8s0
