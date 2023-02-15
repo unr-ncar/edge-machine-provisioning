@@ -107,6 +107,25 @@
     dest: "/home/edge/infrastructure/docker-compose-infrastructure.yml"
     owner: edge
     group: edge
+- name: "Create docker compose file for recording bag files"
+  template:
+    src: docker-compose-bag.j2
+    dest: "/home/edge/infrastructure/docker-compose-ros.yml"
+    owner: edge
+    group: edge
+- name: "Create dockerfile for ros build"
+  copy:
+    src: "files/Dockerfile" 
+    dest: "/home/edge/infrastructure/Dockerfile"
+    owner: edge
+    group: edge
+    mode: u+rwx
+- name: "create rosdata directory"
+  file:
+    path: "/home/edge/infrastructure/rosdata"
+    state: directory
+    owner: edge
+    group: edge
 - name: "create startup script."
   copy:
     src: "files/startcapture.sh"

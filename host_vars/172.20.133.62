@@ -7,6 +7,9 @@ deployments:
       deploymentId: 1
       corner: NE
       model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
       crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/9th/62/NE
@@ -20,6 +23,9 @@ deployments:
       deploymentId: 0
       corner: SW
       model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
       crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/9th/62/SW

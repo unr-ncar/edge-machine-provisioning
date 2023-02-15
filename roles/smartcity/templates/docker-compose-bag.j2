@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  rosmaster:
+    image: ros:noetic-ros-base-focal
+    command: roscore
+  rosrecord:
+    #build:
+    #  context: .
+    # dockerfile: Dockerfile
+    image: ncar-im-0.rc.unr.edu/roscore
+    environment:
+      - ROS_MASTER_URI=http://rosmaster:11311
+    volumes: 
+      - ./rosdata:/data
+    command: 
+      - "/opt/ros/noetic/bin/rosbag"
+      - "record"
+      - "/velodyne_points"
+    depends_on:
+      - rosmaster
+      #- roslidar
+{% for index in ["one","two"] %}
+      - roslidar{{deployments[index].id}}
+{% endfor %}
+{% for index in ["one","two"] %}
+  roslidar{{deployments[index].id}}:
+    environment:
+      - ROS_MASTER_URI=http://rosmaster:11311
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
+    image: ncar-im-0.rc.unr.edu/roscore
+    ports:
+      - {{deployments[index].dataPort}}:2368/udp
+    command:
+      - "/opt/ros/noetic/bin/roslaunch"
+      - "velodyne_pointcloud"
+      - "VLP-32C_points.launch" 
+      - "port:=2368"
+      - "frame_id:=velodyne{{ deployments[index].deploymentId }}"
+      - "__ns:={{ deployments[index].street|lower }}_{{deployments[index].crossStreet|lower}}_{{deployments[index].corner|lower}}"
+    depends_on:
+      - rosmaster
+{% endfor %}

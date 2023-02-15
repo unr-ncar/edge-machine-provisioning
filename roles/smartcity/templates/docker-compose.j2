@@ -107,7 +107,7 @@ services:
         #build: ./pcap-processing/pcl
         network_mode: "host"
         restart: always
-        command: ['-nport','{{ deployments[index].nmeaPort }}','-mhost','134.197.75.31','-mport','30041','-topic','{{deployments[index].mqtttopic}}','-ip','{{deployments[index].ip}}','-port','{{deployments[index].dataPort}}','-config','{{deployments[index].lidarConfig}}']
+        command: ['-nport','{{ deployments[index].nmeaPort }}','-mhost','134.197.75.31','-mport','30041','-topic','{{deployments[index].mqtttopic}}','-ip','{{deployments[index].ip}}','-port','{{deployments[index].dataPort}}','-config','{{deployments[index].lidarConfig}}','-json','1','-draco','1','-q','12','-c','9','-sensorId','{{deployments[index].id}}','-sensor','{{deployments[index].model}}','-corner','{{deployments[index].corner}}','-street','{{deployments[index].street}}','-crossStreet','{{deployments[index].crossStreet}}','-deploymentId','{{deployments[index].deploymentId}}','-siteId','{{deployments[index].siteId}}']
         environment:
         - PCL_IP={{deployments[index].ip}} #192.168.1.11
         - PCL_PORT={{deployments[index].dataPort}}
@@ -141,9 +141,9 @@ services:
         - INTERFACE={{deployments[index].interface}}
         - MIN=3600 # listen to this interface for a default of 60 seconds
         - IP={{deployments[index].ip}} #192.168.1.11
-        - STATE=Nevada
-        - CITY=Reno
-        - STREET=Virginia
+        - STATE={{deployments[index].state}}
+        - CITY={{deployments[index].city}}
+        - STREET={{deployments[index].street}}
         - CROSSSTREET={{deployments[index].crossStreet}} #15th
         - CORNER={{deployments[index].corner}} #SE
         - SENSORID={{deployments[index].id}} # int
