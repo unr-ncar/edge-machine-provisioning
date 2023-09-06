@@ -15,7 +15,9 @@ services:
     command: 
       - "/opt/ros/noetic/bin/rosbag"
       - "record"
-      - "/velodyne_points"
+{% for index in ["one","two"] %}
+      - "{{deployments[index].street|lower}}_{{deployments[index].crossStreet|lower}}_{{deployments[index].corner|lower}}/velodyne_points"
+{% endfor %}
     depends_on:
       - rosmaster
       #- roslidar
@@ -38,7 +40,7 @@ services:
       - "VLP-32C_points.launch" 
       - "port:=2368"
       - "frame_id:=velodyne{{ deployments[index].deploymentId }}"
-      - "__ns:={{ deployments[index].street|lower }}_{{deployments[index].crossStreet|lower}}_{{deployments[index].corner|lower}}"
+      - "__ns:={{deployments[index].street|lower}}_{{deployments[index].crossStreet|lower}}_{{deployments[index].corner|lower}}"
     depends_on:
       - rosmaster
 {% endfor %}

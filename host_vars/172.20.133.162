@@ -16,6 +16,7 @@ deployments:
       dataPort: 2480
       nmeaPort: 8428
       interface: enp7s0
+      frontdirection: 136
     two:
       id: 12
       ip: 172.20.133.171
@@ -32,5 +33,6 @@ deployments:
       dataPort: 2490
       nmeaPort: 8438
       interface: enp8s0
+      frontdirection: 136
 ip: 172.20.133.162
 HOSTNAME: ncar-edge-162

@@ -107,7 +107,45 @@ services:
         #build: ./pcap-processing/pcl
         network_mode: "host"
         restart: always
-        command: ['-nport','{{ deployments[index].nmeaPort }}','-mhost','134.197.75.31','-mport','30041','-topic','{{deployments[index].mqtttopic}}','-ip','{{deployments[index].ip}}','-port','{{deployments[index].dataPort}}','-config','{{deployments[index].lidarConfig}}','-json','1','-draco','1','-q','12','-c','9','-sensorId','{{deployments[index].id}}','-sensor','{{deployments[index].model}}','-corner','{{deployments[index].corner}}','-street','{{deployments[index].street}}','-crossStreet','{{deployments[index].crossStreet}}','-deploymentId','{{deployments[index].deploymentId}}','-siteId','{{deployments[index].siteId}}']
+        command: 
+          - '-nport'
+          - '{{ deployments[index].nmeaPort }}'
+          - '-mhost'
+          - '134.197.75.31'
+          - '-mport'
+          - '30041'
+          - '-topic'
+          - '{{deployments[index].mqtttopic}}'
+          - '-ip'
+          - '{{deployments[index].ip}}'
+          - '-port'
+          - '{{deployments[index].dataPort+1}}'
+          - '-config'
+          - '{{deployments[index].lidarConfig}}'
+          - '-json'
+          - '1'
+          - '-draco'
+          - '1'
+          - '-q'
+          - '13'
+          - '-c'
+          - '9'
+          - '-sensorId'
+          - '{{deployments[index].id}}'
+          - '-sensor'
+          - '{{deployments[index].model}}'
+          - '-corner'
+          - '{{deployments[index].corner}}'
+          - '-street'
+          - '{{deployments[index].street}}'
+          - '-crossStreet'
+          - '{{deployments[index].crossStreet}}'
+          - '-deploymentId'
+          - '{{deployments[index].deploymentId}}'
+          -  '-siteId'
+          - '{{deployments[index].siteId}}'
+          - '-forwardDirection'
+          - '{{deployments[index].frontdirection}}'
         environment:
         - PCL_IP={{deployments[index].ip}} #192.168.1.11
         - PCL_PORT={{deployments[index].dataPort}}
@@ -150,5 +188,10 @@ services:
         - SENSORMODEL={{deployments[index].model}} #VLP-16
         - SITEID={{deployments[index].siteId}} #0
         - DEPLOYMENTID={{deployments[index].deploymentId}} #0,1
+  samplicator{{ deployments[index].id}}:
+    image: elastiflow/samplicator:1.0.1_1.3.8rc1
+    network_mode: "host"
+    restart: always
+    command: -s 0.0.0.0 -p {{deployments[index].dataPort}} -S -d 0 0.0.0.0/{{ deployments[index].dataPort + 1}} 0.0.0.0/{{ deployments[index].dataPort + 2}} 0.0.0.0/{{ deployments[index].dataPort + 3}}
 {% endfor %}
 
