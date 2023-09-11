@@ -1,0 +1,38 @@
+test: maybe2
+deployments:
+    one: 
+      id: 16 # sensorid
+      ip: 172.20.133.190
+      siteId: 7
+      deploymentId: 0
+      corner: SW
+      model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
+      crossStreet: 8th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/8th/82/SW
+      dataPort: 2500
+      nmeaPort: 8448
+      interface: enp7s0
+      frontdirection: 114
+    two:
+      id: 15
+      ip: 172.20.133.191
+      siteId: 7
+      deploymentId: 1
+      corner: NE
+      model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
+      crossStreet: 8th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/8th/82/NE
+      dataPort: 2510
+      nmeaPort: 8458
+      interface: enp8s0
+      frontdirection: 136
+ip: 172.20.133.82
+HOSTNAME: ncar-edge-8th

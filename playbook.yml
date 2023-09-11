@@ -13,5 +13,5 @@
     # be careful with this one
     #- mrlesmithjr.netplan 
   pre_tasks:
-  - raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+  #- raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
   - setup: # aka gather_facts
