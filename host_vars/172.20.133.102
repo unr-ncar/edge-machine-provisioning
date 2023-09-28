@@ -2,26 +2,9 @@ test: maybe2
 deployments:
     one: 
       id: 17 # sensorid
-      ip: 172.20.133.190
+      ip: 172.20.133.110
       siteId: 8
       deploymentId: 1
-      corner: SW
-      model: VLP-32C
-      state: Nevada
-      city: Reno
-      street: Virginia
-      crossStreet: Maple
-      lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Maple/102/SW
-      dataPort: 2500
-      nmeaPort: 8448
-      interface: enp7s0
-      frontdirection: 114
-    two:
-      id: 18
-      ip: 172.20.133.191
-      siteId: 8
-      deploymentId: 0
       corner: NE
       model: VLP-32C
       state: Nevada
@@ -30,8 +13,25 @@ deployments:
       crossStreet: Maple
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Maple/102/NE
-      dataPort: 2510
-      nmeaPort: 8458
+      dataPort: 2440
+      nmeaPort: 8388
+      interface: enp7s0
+      frontdirection: 114
+    two:
+      id: 18
+      ip: 172.20.133.111
+      siteId: 8
+      deploymentId: 0
+      corner: SW
+      model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
+      crossStreet: Maple
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/Maple/102/SW
+      dataPort: 2450
+      nmeaPort: 8398
       interface: enp8s0
       frontdirection: 136
 ip: 172.20.133.102
