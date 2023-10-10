@@ -16,7 +16,7 @@ deployments:
       dataPort: 2440
       nmeaPort: 8388
       interface: enp7s0
-      frontdirection: 114
+      frontdirection: -237
     two:
       id: 18
       ip: 172.20.133.111
@@ -33,6 +33,6 @@ deployments:
       dataPort: 2450
       nmeaPort: 8398
       interface: enp8s0
-      frontdirection: 136
+      frontdirection: -30
 ip: 172.20.133.102
 HOSTNAME: ncar-edge-maple

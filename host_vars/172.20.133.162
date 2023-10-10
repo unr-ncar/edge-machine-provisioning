@@ -16,7 +16,7 @@ deployments:
       dataPort: 2480
       nmeaPort: 8428
       interface: enp7s0
-      frontdirection: 136
+      frontdirection: -30
     two:
       id: 12
       ip: 172.20.133.171

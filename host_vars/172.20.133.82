@@ -16,7 +16,7 @@ deployments:
       dataPort: 2420
       nmeaPort: 8368
       interface: enp7s0
-      frontdirection: 114
+      frontdirection: -318
     two:
       id: 15
       ip: 172.20.133.91
@@ -33,6 +33,6 @@ deployments:
       dataPort: 2430
       nmeaPort: 8378
       interface: enp8s0
-      frontdirection: 136
+      frontdirection: -135
 ip: 172.20.133.82
 HOSTNAME: ncar-edge-8th
