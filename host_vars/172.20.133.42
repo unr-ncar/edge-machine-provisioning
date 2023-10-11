@@ -12,7 +12,7 @@ deployments:
       street: Virginia
       crossStreet: Artemesia
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Artemesia/42/SW
+      mqtttopic: /IM/Artemesia/SW
       dataPort: 2380
       nmeaPort: 8328
       interface: enp7s0
@@ -29,7 +29,7 @@ deployments:
       street: Virginia
       crossStreet: Artemesia
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/Artemesia/42/NE
+      mqtttopic: /IM/Artemesia/NE
       dataPort: 2390
       nmeaPort: 8338
       interface: enp8s0

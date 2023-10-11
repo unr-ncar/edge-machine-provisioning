@@ -12,7 +12,7 @@ deployments:
       street: Virginia
       crossStreet: College
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/College/22/NE
+      mqtttopic: /IM/College/NE
       dataPort: 2350
       nmeaPort: 8318
       interface: enp7s0
@@ -29,7 +29,7 @@ deployments:
       street: Virginia
       crossStreet: College
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/College/22/SW
+      mqtttopic: /IM/College/SW
       dataPort: 2340
       nmeaPort: 8308
       interface: enp8s0

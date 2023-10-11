@@ -12,7 +12,7 @@ deployments:
       street: Virginia
       crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/9th/62/NE
+      mqtttopic: /IM/9th/NE
       dataPort: 2400
       nmeaPort: 8348
       interface: enp7s0
@@ -29,7 +29,7 @@ deployments:
       street: Virginia
       crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
-      mqtttopic: /IM/9th/62/SW
+      mqtttopic: /IM/9th/SW
       dataPort: 2410
       nmeaPort: 8358
       interface: enp8s0
