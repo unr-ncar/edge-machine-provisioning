@@ -15,6 +15,30 @@ services:
      depends_on:
       - consul
       - registrator
+  rosservice: 
+    image: ncar-im-0.rc.unr.edu/rosrecordservice
+    environment:
+      - ROS_HOSTNAME=ros
+      - ROS_MASTER_URI=http://ros:11311
+    volumes:
+      - type: bind
+        source: /data/ros
+        target: /app/bags
+      - type: bind
+        source: /home/edge/infrastructure/config/config.yaml
+        target: /app/config.yaml
+      - type: bind
+        source: /home/edge/infrastructure/config/lidars.launch
+        target: /app/lidars.launch
+  pcapservice:
+    image: ncar-im-0.rc.unr.edu/pcaprecordservice
+    volumes:
+      - type: bind
+        source: /data/pcap
+        target: /app/data
+      - type: bind
+        source: /home/edge/infrastructure/config/config.yaml
+        target: /app/config.yaml
   minifi:
     image: ncar-im-0.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
     #build: ./minifi

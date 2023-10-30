@@ -100,7 +100,25 @@
     dest:  /home/edge/infrastructure/minifi/process.yml
     owner: edge
     group: edge
-    
+
+- name: Create config directory if it does not exist
+  become: yes
+  file:
+    owner: edge
+    group: edge
+    path: /home/edge/infrastructure/config/
+    state: directory
+
+- name: "Create lidars launch"
+  template:
+    src: lidars.launch.j2
+    dest: "/home/edge/infrastructure/config/lidars.launch"
+
+- name: "Create config yaml file for lidars"
+  template:
+    src: config.yaml.j2
+    dest: "/home/edge/infrastructure/config/config.yaml"
+
 - name: "Creating docker compose file"
   template:
     src: docker-compose.j2
