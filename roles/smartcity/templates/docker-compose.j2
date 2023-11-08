@@ -30,6 +30,7 @@ services:
       - type: bind
         source: /home/edge/infrastructure/config/lidars.launch
         target: /app/lidars.launch
+    network_mode: "host"
   pcapservice:
     image: ncar-im-0.rc.unr.edu/pcaprecordservice
     volumes:
@@ -39,6 +40,27 @@ services:
       - type: bind
         source: /home/edge/infrastructure/config/config.yaml
         target: /app/config.yaml
+    network_mode: "host"
+  production_minifi:
+    image: apache/nifi-minifi:latest
+    #build: ./minifi
+    volumes:
+      - type: bind
+        source: /home/edge/infrastructure/minifi/production_file_flow.yml
+        target: /opt/minifi/minifi-current/conf/config.yml 
+      - type: bind
+        source: /data
+        target: /data
+      - type: bind
+        source: /home/edge/infrastructure/minifi/provenance_repository
+        target: /opt/minifi/minifi-current/provenance_repository
+      - type: bind
+        source: /home/edge/infrastructure/minifi/flowfile_repository
+        target: /opt/minifi/minifi-current/flowfile_repository
+      - type: bind
+        source: /home/edge/infrastructure/minifi/content_repository
+        target: /opt/minifi/minifi-current/content_repository
+    network_mode: "host"
   minifi:
     image: ncar-im-0.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
     #build: ./minifi

@@ -1,0 +1,250 @@
+MiNiFi Config Version: 3
+Flow Controller:
+  name: Production File Flow v3
+  comment: ''
+Core Properties:
+  flow controller graceful shutdown period: 10 sec
+  flow service write delay interval: 500 ms
+  administrative yield duration: 30 sec
+  bored yield duration: 10 millis
+  max concurrent threads: 1
+  variable registry properties: ''
+FlowFile Repository:
+  implementation: org.apache.nifi.controller.repository.WriteAheadFlowFileRepository
+  partitions: 256
+  checkpoint interval: 2 mins
+  always sync: false
+  Swap:
+    threshold: 20000
+    in period: 5 sec
+    in threads: 1
+    out period: 5 sec
+    out threads: 4
+Content Repository:
+  implementation: org.apache.nifi.controller.repository.FileSystemRepository
+  content claim max appendable size: 10 MB
+  content claim max flow files: 100
+  content repository archive enabled: false
+  content repository archive max retention period: 12 hours
+  content repository archive max usage percentage: 50%
+  always sync: false
+Provenance Repository:
+  provenance rollover time: 1 min
+  implementation: org.apache.nifi.provenance.WriteAheadProvenanceRepository
+  provenance index shard size: 500 MB
+  provenance max storage size: 1 GB
+  provenance max storage time: 24 hours
+  provenance buffer size: 10000
+Component Status Repository:
+  buffer size: 1440
+  snapshot frequency: 1 min
+Security Properties:
+  keystore: ''
+  keystore type: ''
+  keystore password: ''
+  key password: ''
+  truststore: ''
+  truststore type: ''
+  truststore password: ''
+  ssl protocol: ''
+  Sensitive Props:
+    key:
+    algorithm: NIFI_PBKDF2_AES_GCM_256
+Processors:
+- id: cd914006-1a6d-338e-0000-000000000000
+  name: ListFile
+  class: org.apache.nifi.processors.standard.ListFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    File Filter: '[^\.].*'
+    Ignore Hidden Files: 'true'
+    Include File Attributes: 'true'
+    Input Directory:
+    Input Directory Location: Local
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 0 sec
+    Minimum File Size: 0 B
+    Path Filter:
+    Recurse Subdirectories: 'true'
+    et-initial-listing-target: all
+    et-node-identifier: ${hostname()}
+    et-state-cache:
+    et-time-window: 3 hours
+    listing-strategy: timestamps
+    max-listing-time: 3 mins
+    max-operation-time: 10 secs
+    max-performance-metrics: '100000'
+    target-system-timestamp-precision: auto-detect
+    track-performance: 'false'
+- id: cd02facc-9b65-330d-0000-000000000000
+  name: PCAP GetFileComplete
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size: '10'
+    File Filter: '[^\.].*'
+    Ignore Hidden Files: 'true'
+    Input Directory: /data/pcap
+    Keep Source File: 'false'
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 0 sec
+    Minimum File Size: 0 B
+    Path Filter: .*/complete
+    Polling Interval: 0 sec
+    Recurse Subdirectories: 'true'
+- id: db8c831b-8994-3659-0000-000000000000
+  name: PCAP GetFileIncomplete
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size: '10'
+    File Filter: '[^\.].*'
+    Ignore Hidden Files: 'true'
+    Input Directory: /data/pcap
+    Keep Source File: 'false'
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 0 sec
+    Minimum File Size: 0 B
+    Path Filter: .*/incomplete
+    Polling Interval: 0 sec
+    Recurse Subdirectories: 'true'
+- id: e13d2741-1c78-3ae9-0000-000000000000
+  name: ROS GetFileComplete
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size: '10'
+    File Filter: '[^\.].*'
+    Ignore Hidden Files: 'true'
+    Input Directory: /data/ros
+    Keep Source File: 'false'
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 0 sec
+    Minimum File Size: 0 B
+    Path Filter: .*/complete|.*/complete/.*
+    Polling Interval: 0 sec
+    Recurse Subdirectories: 'true'
+- id: 4830d80d-bbcf-38ce-0000-000000000000
+  name: ROS GetFileIncomplete
+  class: org.apache.nifi.processors.standard.GetFile
+  max concurrent tasks: 1
+  scheduling strategy: TIMER_DRIVEN
+  scheduling period: 0 sec
+  penalization period: 30 sec
+  yield period: 1 sec
+  run duration nanos: 0
+  auto-terminated relationships list: []
+  Properties:
+    Batch Size: '10'
+    File Filter: '[^\.].*'
+    Ignore Hidden Files: 'true'
+    Input Directory: /data/ros
+    Keep Source File: 'false'
+    Maximum File Age:
+    Maximum File Size:
+    Minimum File Age: 0 sec
+    Minimum File Size: 0 B
+    Path Filter: .*/incomplete|.*/incomplete/.*
+    Polling Interval: 0 sec
+    Recurse Subdirectories: 'true'
+Controller Services: []
+Process Groups: []
+Input Ports: []
+Output Ports: []
+Funnels: []
+Connections:
+- id: 8db09e6c-0a0c-3524-0000-000000000000
+  name: PCAP GetFileComplete/success/81d4f6e7-018b-1000-ffff-fffff94ec47d
+  source id: cd02facc-9b65-330d-0000-000000000000
+  source relationship names:
+  - success
+  destination id: 81d4f6e7-018b-1000-ffff-fffff94ec47d
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- id: 19395c57-a2d7-3508-0000-000000000000
+  name: PCAP GetFileIncomplete/success/81d4f6e7-018b-1000-ffff-fffff94ec47d
+  source id: db8c831b-8994-3659-0000-000000000000
+  source relationship names:
+  - success
+  destination id: 81d4f6e7-018b-1000-ffff-fffff94ec47d
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- id: 90574334-c6b9-38ab-0000-000000000000
+  name: ROS GetFileComplete/success/81d4f6e7-018b-1000-ffff-fffff94ec47d
+  source id: e13d2741-1c78-3ae9-0000-000000000000
+  source relationship names:
+  - success
+  destination id: 81d4f6e7-018b-1000-ffff-fffff94ec47d
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+- id: 2f754ab4-ac94-3b5a-0000-000000000000
+  name: ROS GetFileIncomplete/success/81d4f6e7-018b-1000-ffff-fffff94ec47d
+  source id: 4830d80d-bbcf-38ce-0000-000000000000
+  source relationship names:
+  - success
+  destination id: 81d4f6e7-018b-1000-ffff-fffff94ec47d
+  max work queue size: 10000
+  max work queue data size: 1 GB
+  flowfile expiration: 0 sec
+  queue prioritizer class: ''
+Remote Process Groups:
+- id: 63afca9f-e529-3df2-0000-000000000000
+  name: ''
+  url: http://134.197.75.32:30001/nifi, http://134.197.75.76:30001/nifi, http://134.197.75.77:30001/nifi,
+    http://134.197.75.78:30001/nifi, http://134.197.75.79:30001/nifi
+  comment: ''
+  timeout: 30 sec
+  yield period: 10 sec
+  transport protocol: RAW
+  proxy host: ''
+  proxy port: ''
+  proxy user: ''
+  proxy password: ''
+  local network interface: ''
+  Input Ports:
+  - id: 81d4f6e7-018b-1000-ffff-fffff94ec47d
+    name: Production File
+    comment: ''
+    max concurrent tasks: 1
+    use compression: false
+  - id: 305ec3c1-a168-3252-bc73-f8a74cb405e6
+    name: From Pcap
+    comment: ''
+    max concurrent tasks: 1
+    use compression: false
+  Output Ports: []
+NiFi Properties Overrides: {}

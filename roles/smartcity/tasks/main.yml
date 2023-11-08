@@ -101,6 +101,13 @@
     owner: edge
     group: edge
 
+- name: copying configuration files to edge device
+  copy: 
+    src: configurationfiles/production_file_flow.yml
+    dest:  /home/edge/infrastructure/minifi/production_file_flow.yml
+    owner: edge
+    group: edge
+
 - name: Create config directory if it does not exist
   become: yes
   file:

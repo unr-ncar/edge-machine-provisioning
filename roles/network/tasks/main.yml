@@ -25,6 +25,8 @@
     - 8318
     - 5201
     - 8000
+    - 40000
+    - 40001
             
 - name: "enable udp ports"
   ufw:
@@ -174,6 +176,8 @@
     - 8458
     - 5201
     - 8000
+    - 40000
+    - 40001
 
 - name: "enable firewall ports on firewalld"
   ansible.posix.firewalld:
