@@ -1,0 +1,26 @@
+{
+  "services": 
+  [
+    {% for index in ["one","two"] %}
+    {
+        "id": "velodyne-vlp-32c-{{ deployments[index].id }}",
+        "name": "velodyne-vlp-32c-{{ deployments[index].id }}",
+        "tags": [
+            "lidar",
+            "sensor"
+        ],
+        "address": "{{ ip }}",
+        "checks": [
+            {
+            "id": "velodyne-vlp-32c-{{ deployments[index].id }}-status",
+            "name": "Velodyne VLP-32C Status Check",
+            "http": "http://{{deployments[index].ip}}",
+            "interval": "10s",
+            "timeout": "1s"
+            }
+        ]
+        }
+        {% if not loop.last %},{% endif %}
+        {% endfor %}
+  ]
+}

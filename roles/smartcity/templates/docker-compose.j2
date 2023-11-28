@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   cadvisor:
-     image: google/cadvisor:latest
+     image: gcr.io/cadvisor/cadvisor:latest
      container_name: cadvisor
      ports:
       - "30000:8080"
@@ -88,16 +88,10 @@ services:
      hostname: $HOSTNAME
      network_mode: host
      restart: always
-     #ports:
-     # - "8312:8312"
-     # - "8312:8312/udp"
-     # - "8300:8300"
-     # - "8301:8301"
-     # - "8302:8302"
-     # - "8400:8400"
-     # - "8500:8500"
-     # - "8600:8600"
-     # - "8600:8600/udp"
+     volumes:
+      - type: bind
+        source: /home/edge/infrastructure/consul
+        target: /consul/config
   registrator:
     image: gliderlabs/registrator:latest
     command: "-internal=false -ip=\"${HOST_IP}\" consul://${HOST_IP}:8500"

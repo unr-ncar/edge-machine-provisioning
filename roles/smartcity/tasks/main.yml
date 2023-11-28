@@ -116,6 +116,24 @@
     path: /home/edge/infrastructure/config/
     state: directory
 
+- name: Create consul Directory
+  become: yes
+  file:
+    owner: edge
+    group: edge
+    path: /home/edge/infrastructure/consul/
+    state: directory
+
+- name: "Create consul service configuration file"
+  template:
+    src: consul.json.j2
+    dest: "/home/edge/infrastructure/consul/consul.json"
+
+- name: "Create consul service configuration file"
+  template:
+    src: velodyne.json.j2
+    dest: "/home/edge/infrastructure/consul/velodyne.json"
+
 - name: "Create lidars launch"
   template:
     src: lidars.launch.j2
@@ -216,6 +234,40 @@
     dest: "/home/edge/scripts/movefiles.sh"
     owner: "edge"
     group: "edge"
+
+- name: "adding daily pcap record script"
+  copy:
+    src: "files/dailypcaprecord.sh"
+    dest: "/home/edge/scripts/dailypcaprecord.sh"
+    owner: "edge"
+    group: "edge"
+    mode: u+rwx
+
+- name: "adding cleanup script"
+  copy:
+    src: "files/cleanup.sh"
+    dest: "/home/edge/scripts/cleanup.sh"
+    owner: "edge"
+    group: "edge"
+    mode: u+rwx
+
+# adding daily pcap record script to cronjob at 8:00 am pacific time
+- name: "adding cronjob in root"
+  become: yes
+  cron:
+    name: "daily pcap record"
+    minute: "0"
+    hour: "16"
+    job: "/home/edge/scripts/dailypcaprecord.sh" 
+
+# adding cleanup script to cronjob at midnight am pacific time
+- name: "adding cronjob in root"
+  become: yes
+  cron:
+    name: "cleanup"
+    minute: "0"
+    hour: "8"
+    job: "/home/edge/scripts/cleanup.sh"
 
 - name: "copying smartmon.sh into scripts directory"
   copy:
