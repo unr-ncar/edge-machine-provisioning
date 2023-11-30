@@ -17,6 +17,8 @@ deployments:
       nmeaPort: 8388
       interface: enp7s0
       frontdirection: -237
+      latitude: 39.534351798597015
+      longitude: -119.8154971823355
     two:
       id: 18
       ip: 172.20.133.111
@@ -34,5 +36,9 @@ deployments:
       nmeaPort: 8398
       interface: enp8s0
       frontdirection: -30
+      latitude: 39.534146928048976
+      longitude: -119.81572346519548
 ip: 172.20.133.102
 HOSTNAME: ncar-edge-maple
+latitude: 39.53425007070818
+longitude: -119.81560650173796

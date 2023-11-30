@@ -17,6 +17,8 @@ deployments:
       nmeaPort: 8408
       interface: enp7s0
       frontdirection: -50
+      latitude: 39.532337007650064
+      longitude: -119.8151456398462
     two:
       id: 10
       ip: 172.20.133.151
@@ -34,5 +36,9 @@ deployments:
       nmeaPort: 8418
       interface: enp8s0
       frontdirection: -215
+      latitude: 39.53263438194039
+      longitude: -119.81498806007662
 ip: 172.20.133.142
 HOSTNAME: ncar-edge-142
+latitude: 39.532472224225145
+longitude: -119.81504638270457
