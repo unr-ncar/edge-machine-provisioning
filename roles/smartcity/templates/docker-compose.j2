@@ -31,6 +31,7 @@ services:
         source: /home/edge/infrastructure/config/lidars.launch
         target: /app/lidars.launch
     network_mode: "host"
+    restart: always
   pcapservice:
     image: ncar-im-0.rc.unr.edu/pcaprecordservice
     volumes:
@@ -41,6 +42,7 @@ services:
         source: /home/edge/infrastructure/config/config.yaml
         target: /app/config.yaml
     network_mode: "host"
+    restart: always
   production_minifi:
     image: apache/nifi-minifi:latest
     #build: ./minifi
