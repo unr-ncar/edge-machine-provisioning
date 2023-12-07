@@ -88,9 +88,6 @@
     - 8448
     - 8458
 
-- name: "disable ufw"
-  ufw:
-    state: disabled
 
 
 - name: "Adding a entry into /etc/default/fprobe"
@@ -112,135 +109,151 @@
     state: started
     enabled: yes
 
+- name: Allow UDP ports 7400-7413 from 192.168.1.100
+  ansible.builtin.ufw:
+    rule: allow
+    proto: udp
+    from_ip: any
+    to_ip: "{{ host_ip }}"
+    port: "{{ item }}"
+  loop: "{{ range(7400, 7414) | list }}"
 
-- name: "enable firewall ports on firewalld tcp"
-  ansible.posix.firewalld:
-    port: "{{ item }}/tcp"
-    permanent: yes
-    state: enabled
-  with_items:
-    - 80 # http
-    - 30000 # cadvisor
-    - 8500 # consul
-    - 8312
-    - 8400
-    - 8600
-    - 8301
-    - 8302
-    - 8022 
-    - 443 # ssl
-    - 22 # ssh
-    - 30001
-    - 139
-    - 445
-    - 9100
-    - 2360
-    - 2370
-    - 8308
-    - 8318
-    - 2340
-    - 2350
-    - 2360
-    - 2370
-    - 2380
-    - 2390
-    - 2400
-    - 2410
-    - 2420
-    - 2430
-    - 2440
-    - 2450
-    - 2460
-    - 2470
-    - 2480
-    - 2490
-    - 2500
-    - 2510
-    - 8292
-    - 8300
-    - 8308
-    - 8318
-    - 8328
-    - 8338
-    - 8348
-    - 8358
-    - 8368
-    - 8378
-    - 8388
-    - 8398
-    - 8408
-    - 8418
-    - 8428
-    - 8438
-    - 8448
-    - 8458
-    - 5201
-    - 8000
-    - 40000
-    - 40001
+- name: Ensure UFW is running
+  ansible.builtin.service:
+    name: ufw
+    state: started
+    enabled: yes
 
-- name: "enable firewall ports on firewalld"
-  ansible.posix.firewalld:
-    port: "{{ item }}/udp"
-    permanent: yes
-    state: enabled
-  with_items:
-    - 53 # dhcp
-    - 8600 # consul
-    - 8312
-    - 2368
-    - 2369
-    - 8308
-    - 8309
-    - 8022
-    - 30001
-    - 137
-    - 138
-    - 9100
-    - 2360
-    - 2370
-    - 8308
-    - 8318
-    - 2340
-    - 2350
-    - 2360
-    - 2370
-    - 2380
-    - 2390
-    - 2400
-    - 2410
-    - 2420
-    - 2430
-    - 2440
-    - 2450
-    - 2460
-    - 2470
-    - 2480
-    - 2490
-    - 2500
-    - 2510
-    - 8292
-    - 8300
-    - 8308
-    - 8318
-    - 8328
-    - 8338
-    - 8348
-    - 8358
-    - 8368
-    - 8378
-    - 8388
-    - 8398
-    - 8408
-    - 8418
-    - 8428
-    - 8438
-    - 8448
-    - 8458
-    - 5201
+# - name: "enable firewall ports on firewalld tcp"
+#   ansible.posix.firewalld:
+#     port: "{{ item }}/tcp"
+#     permanent: yes
+#     state: enabled
+#   with_items:
+#     - 80 # http
+#     - 30000 # cadvisor
+#     - 8500 # consul
+#     - 8312
+#     - 8400
+#     - 8600
+#     - 8301
+#     - 8302
+#     - 8022 
+#     - 443 # ssl
+#     - 22 # ssh
+#     - 30001
+#     - 139
+#     - 445
+#     - 9100
+#     - 2360
+#     - 2370
+#     - 8308
+#     - 8318
+#     - 2340
+#     - 2350
+#     - 2360
+#     - 2370
+#     - 2380
+#     - 2390
+#     - 2400
+#     - 2410
+#     - 2420
+#     - 2430
+#     - 2440
+#     - 2450
+#     - 2460
+#     - 2470
+#     - 2480
+#     - 2490
+#     - 2500
+#     - 2510
+#     - 8292
+#     - 8300
+#     - 8308
+#     - 8318
+#     - 8328
+#     - 8338
+#     - 8348
+#     - 8358
+#     - 8368
+#     - 8378
+#     - 8388
+#     - 8398
+#     - 8408
+#     - 8418
+#     - 8428
+#     - 8438
+#     - 8448
+#     - 8458
+#     - 5201
+#     - 8000
+#     - 40000
+#     - 40001
 
-- firewalld:
-    masquerade: yes
-    state: enabled
-    permanent: yes
-    zone: public
+# - name: "enable firewall ports on firewalld"
+#   ansible.posix.firewalld:
+#     port: "{{ item }}/udp"
+#     permanent: yes
+#     state: enabled
+#   with_items:
+#     - 53 # dhcp
+#     - 8600 # consul
+#     - 8312
+#     - 2368
+#     - 2369
+#     - 8308
+#     - 8309
+#     - 8022
+#     - 30001
+#     - 137
+#     - 138
+#     - 9100
+#     - 2360
+#     - 2370
+#     - 8308
+#     - 8318
+#     - 2340
+#     - 2350
+#     - 2360
+#     - 2370
+#     - 2380
+#     - 2390
+#     - 2400
+#     - 2410
+#     - 2420
+#     - 2430
+#     - 2440
+#     - 2450
+#     - 2460
+#     - 2470
+#     - 2480
+#     - 2490
+#     - 2500
+#     - 2510
+#     - 8292
+#     - 8300
+#     - 8308
+#     - 8318
+#     - 8328
+#     - 8338
+#     - 8348
+#     - 8358
+#     - 8368
+#     - 8378
+#     - 8388
+#     - 8398
+#     - 8408
+#     - 8418
+#     - 8428
+#     - 8438
+#     - 8448
+#     - 8458
+#     - 5201
+
+
+
+#- firewalld:
+#    masquerade: yes
+#    state: enabled
+#    permanent: yes
+#   zone: public

@@ -63,6 +63,7 @@ services:
         source: /home/edge/infrastructure/minifi/content_repository
         target: /opt/minifi/minifi-current/content_repository
     network_mode: "host"
+    restart: always
   minifi:
     image: ncar-im-0.rc.unr.edu/minifi #apache-nifi-minifi-cpp:0.5.0 #minifi
     #build: ./minifi
