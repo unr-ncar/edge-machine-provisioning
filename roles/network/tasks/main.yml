@@ -114,7 +114,7 @@
     rule: allow
     proto: udp
     from_ip: any
-    to_ip: "{{ host_ip }}"
+    to_ip: "{{ ip }}"
     port: "{{ item }}"
   loop: "{{ range(7400, 7414) | list }}"
 
