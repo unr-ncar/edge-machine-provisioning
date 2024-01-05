@@ -27,6 +27,7 @@
     - 8000
     - 40000
     - 40001
+    - 40002
             
 - name: "enable udp ports"
   ufw:
