@@ -19,6 +19,8 @@ deployments:
       frontdirection: -27
       latitude: 39.52974740900038
       longitude: -119.81430056812974
+      appid: 1
+      restPort: 40002
     two:
       id: 14
       ip: 172.20.133.191
@@ -38,6 +40,8 @@ deployments:
       frontdirection: -199
       latitude: 39.53004531157348
       longitude: -119.81419260922377
+      appid: 2
+      restPort: 40003
 ip: 172.20.133.182
 HOSTNAME: ncar-edge-182
 latitude: 39.529907174364574

@@ -19,6 +19,8 @@ deployments:
       frontdirection: -237
       latitude: 39.534351798597015
       longitude: -119.8154971823355
+      appid: 1
+      restPort: 40002
     two:
       id: 18
       ip: 172.20.133.111
@@ -38,6 +40,8 @@ deployments:
       frontdirection: -30
       latitude: 39.534146928048976
       longitude: -119.81572346519548
+      appid: 2
+      restPort: 40003
 ip: 172.20.133.102
 HOSTNAME: ncar-edge-maple
 latitude: 39.53425007070818

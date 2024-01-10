@@ -145,7 +145,7 @@ services:
             - ${BASE_PATH}/text:/text
     network_mode: "host"
 {% for index in ["one","two"] %}
-  pcl{{ deployments[index].id }}:
+  pcl{{ deployments[index].appid }}:
         image: {{pclProcessingImage}} #ncar-da-0.rc.unr.edu:5000/pclmqttserve
         #build: ./pcap-processing/pcl
         network_mode: "host"
@@ -189,6 +189,8 @@ services:
           - '{{deployments[index].siteId}}'
           - '-forwardDirection'
           - '{{deployments[index].frontdirection}}'
+          - '-restPort'
+          - '{{deployments[index].restPort}}'
         environment:
         - PCL_IP={{deployments[index].ip}} #192.168.1.11
         - PCL_PORT={{deployments[index].dataPort}}
@@ -208,7 +210,7 @@ services:
         #     reservations:
         #       memory: 30M
 
-  pcap{{ deployments[index].id }}:
+  pcap{{ deployments[index].appid }}:
         image: {{pcapCaptureImage}} #ncar-da-0.rc.unr.edu/pcapcapture
         #build: ./pcap-processing/pcap
         network_mode: "host"
@@ -231,7 +233,7 @@ services:
         - SENSORMODEL={{deployments[index].model}} #VLP-16
         - SITEID={{deployments[index].siteId}} #0
         - DEPLOYMENTID={{deployments[index].deploymentId}} #0,1
-  samplicator{{ deployments[index].id}}:
+  samplicator{{ deployments[index].appid}}:
     image: elastiflow/samplicator:1.0.1_1.3.8rc1
     network_mode: "host"
     restart: always
