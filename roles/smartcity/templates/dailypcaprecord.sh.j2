@@ -1,0 +1,4 @@
+echo "starting daily pcap recording for sensors at this street corner"
+{% for index in ["one","two"] %}
+curl "localhost:40001/start/{{deployments[index].id }}?timeout=30000&count=16"
+{% endfor %}

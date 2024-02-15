@@ -235,13 +235,18 @@
     owner: "edge"
     group: "edge"
 
+#- name: "adding daily pcap record script"
+#  copy:
+#    src: "files/dailypcaprecord.sh"
+#    dest: "/home/edge/scripts/dailypcaprecord.sh"
+#    owner: "edge"
+#    group: "edge"
+#    mode: u+rwx
+
 - name: "adding daily pcap record script"
-  copy:
-    src: "files/dailypcaprecord.sh"
+  template:
+    src: dailypcaprecord.sh.j2
     dest: "/home/edge/scripts/dailypcaprecord.sh"
-    owner: "edge"
-    group: "edge"
-    mode: u+rwx
 
 - name: "adding cleanup script"
   copy:
