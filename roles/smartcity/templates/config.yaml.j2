@@ -1,22 +1,13 @@
-lidar_1:
-  port: {{deployments["one"].dataPort}}
-  interface: {{deployments["one"].interface}}
-  state: {{deployments["one"].state}}
-  city: {{deployments["one"].city}}
-  street: {{deployments["one"].street}}
-  crossstreet: {{deployments["one"].crossStreet}}
-  corner: {{deployments["one"].corner}}
-  site_id: {{deployments["one"].siteId}}
-  deployment_id: {{deployments["one"].deploymentId}}
-  lidar_id: {{deployments["one"].id }}
-lidar_2:
-  port: {{deployments["two"].dataPort}}
-  interface: {{deployments["two"].interface}}
-  state: {{deployments["two"].state}}
-  city: {{deployments["two"].city}}
-  street: {{deployments["two"].street}}
-  crossstreet: {{deployments["two"].crossStreet}}
-  corner: {{deployments["two"].corner}}
-  site_id: {{deployments["two"].siteId}}
-  deployment_id: {{deployments["two"].deploymentId}}
-  lidar_id: {{deployments["two"].id }}
+{% for index in ["one","two"] %}
+{{deployments[index].id }}:
+  port: {{deployments[index].dataPort}}
+  interface: {{deployments[index].interface}}
+  state: {{deployments[index].state}}
+  city: {{deployments[index].city}}
+  street: {{deployments[index].street}}
+  crossstreet: {{deployments[index].crossStreet}}
+  corner: {{deployments[index].corner}}
+  site_id: {{deployments[index].siteId}}
+  deployment_id: {{deployments[index].deploymentId}}
+  lidar_id: {{deployments[index].id }}
+{% endfor %}
