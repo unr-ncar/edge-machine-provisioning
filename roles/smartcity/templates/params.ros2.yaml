@@ -1,0 +1,15 @@
+mqttclient:
+  ros__parameters:
+    broker:
+      host: 134.197.75.31
+      port: 30041
+    bridge:
+      ros2mqtt:
+        ros_topics: 
+      {% for index in ["one","two"] %}
+          - /vlp_{{deployments[index].id}}/velodyne_points
+      {% endfor %}
+      {% for index in ["one","two"] %}
+        /vlp_{{deployments[index].id}}/velodyne_points:
+          mqtt_topic: /vlp_{{deployments[index].id}}/velodyne_points
+      {% endfor %}

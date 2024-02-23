@@ -139,6 +139,16 @@
     src: lidars.launch.j2
     dest: "/home/edge/infrastructure/config/lidars.launch"
 
+- name: "Create mqtt launch"
+  template:
+    src: mqtt.launch.j2
+    dest: "/home/edge/infrastructure/config/mqtt.launch"
+ 
+- name: "Create params.ros2.yaml file for lidars"
+  template:
+    src: params.ros2.yaml.j2
+    dest: "/home/edge/infrastructure/config/params.ros2.yaml"
+
 - name: "Create config yaml file for lidars"
   template:
     src: config.yaml.j2

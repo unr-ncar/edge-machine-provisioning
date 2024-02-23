@@ -1,35 +1,20 @@
 <launch>
-  <node pkg="velodyne_driver" exec="velodyne_driver_node" name="velodyne1" namespace="vlp_1">
-      <param name="model" value="32C"/>
-      <param name="port" value="{{ deployments["one"].dataPort + 3 }}"/>
-      <param name="frame_id" value="velodyne1"/>
-  </node>
-  
-  <group>
-    <push-ros-namespace namespace="vlp_1"/>
-    <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP32C-launch.py">
-      <arg name="port" value="{{ deployments["one"].dataPort + 3 }}"/>
-      <arg name="frame_id" value="velodyne1"/>
-    </include>
+  {% for index in ["one","two"] %}
+    <node pkg="velodyne_driver" exec="velodyne_driver_node" name="velodyne{{deployments[index].id}}" namespace="vlp_{{deployments[index].id}}">
+        <param name="model" value="32C"/>
+        <param name="port" value="{{ deployments[index].dataPort + 3 }}"/>
+        <param name="frame_id" value="velodyne{{deployments[index].id}}"/>
+    </node>
 
-    <include file="$(find-pkg-share velodyne_laserscan)/launch/velodyne_laserscan_node-launch.py">
-    </include>
-  </group>
-  
+    <group>
+      <push-ros-namespace namespace="vlp_{{deployments[index].id}}"/>
+      <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP32C-launch.py">
+        <arg name="port" value="{{ deployments[index].dataPort + 3 }}"/>
+        <arg name="frame_id" value="velodyne{{deployments[index].id}}"/>
+      </include>
 
-  <node pkg="velodyne_driver" exec="velodyne_driver_node" name="velodyne2" namespace="vlp_2">
-      <param name="model" value="32C"/>
-      <param name="port" value="{{ deployments["two"].dataPort + 3 }}"/>
-      <param name="frame_id" value="velodyne2"/>
-  </node>
-  <group>
-    <push-ros-namespace namespace="vlp_2"/>
-    <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP32C-launch.py">
-      <arg name="frame_id" value="velodyne2"/>
-      <arg name="port" value="{{ deployments["two"].dataPort + 3 }}"/>
-    </include>
-
-    <include file="$(find-pkg-share velodyne_laserscan)/launch/velodyne_laserscan_node-launch.py">
-    </include>
-  </group>
+      <include file="$(find-pkg-share velodyne_laserscan)/launch/velodyne_laserscan_node-launch.py">
+      </include>
+    </group>
+  {% endfor %}
 </launch>

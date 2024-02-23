@@ -1,0 +1,8 @@
+<launch>
+  <arg name="mqtt_params_file" default="/app/params.ros2.yaml" />
+
+  <node pkg="mqtt_client" exec="mqtt_client" name="mqttclient" output="screen">
+    <param from="$(var mqtt_params_file)" />
+  </node>
+
+</launch>

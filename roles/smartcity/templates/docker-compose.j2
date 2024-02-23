@@ -30,7 +30,14 @@ services:
       - type: bind
         source: /home/edge/infrastructure/config/lidars.launch
         target: /app/lidars.launch
+      - type: bind
+        source: /home/edge/infrastructure/config/mqtt.launch
+        target: /app/mqtt.launch
+      - type: bind
+        source: /home/edge/infrastructure/config/params.ros2.yaml
+        target: /app/params.ros2.yaml
     network_mode: "host"
+    #command: "bash -c 'source /opt/ros/humble/setup.bash && ros2 launch /app/lidars.launch & ros2 launch mqtt.launch'"
     restart: always
   pcapservice:
     image: ncar-im-0.rc.unr.edu/pcaprecordservice
