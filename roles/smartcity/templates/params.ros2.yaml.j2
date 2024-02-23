@@ -6,10 +6,10 @@ mqttclient:
     bridge:
       ros2mqtt:
         ros_topics: 
-      {% for index in ["one","two"] %}
+{% for index in ["one","two"] %}
           - /vlp_{{deployments[index].id}}/velodyne_points
-      {% endfor %}
-      {% for index in ["one","two"] %}
-      /vlp_{{deployments[index].id}}/velodyne_points:
-        mqtt_topic: /vlp_{{deployments[index].id}}/velodyne_points
-      {% endfor %}
+{% endfor %}
+{% for index in ["one","two"] %}
+        /vlp_{{deployments[index].id}}/velodyne_points:
+          mqtt_topic: /vlp_{{deployments[index].id}}/velodyne_points
+{% endfor %}
