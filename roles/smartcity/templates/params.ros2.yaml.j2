@@ -10,6 +10,6 @@ mqttclient:
           - /vlp_{{deployments[index].id}}/velodyne_points
       {% endfor %}
       {% for index in ["one","two"] %}
-        /vlp_{{deployments[index].id}}/velodyne_points:
-          mqtt_topic: /vlp_{{deployments[index].id}}/velodyne_points
+      /vlp_{{deployments[index].id}}/velodyne_points:
+        mqtt_topic: /vlp_{{deployments[index].id}}/velodyne_points
       {% endfor %}
