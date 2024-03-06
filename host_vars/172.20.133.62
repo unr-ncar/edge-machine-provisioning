@@ -13,6 +13,7 @@ deployments:
       crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/9th/NE
+      rostopic: /IM/9th/NE
       dataPort: 2400
       nmeaPort: 8348
       interface: enp7s0
@@ -34,6 +35,7 @@ deployments:
       crossStreet: 9th
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/9th/SW
+      rostopic: /IM/9th/SW
       dataPort: 2410
       nmeaPort: 8358
       interface: enp8s0

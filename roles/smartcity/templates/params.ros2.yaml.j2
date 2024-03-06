@@ -7,9 +7,9 @@ mqttclient:
       ros2mqtt:
         ros_topics: 
 {% for index in ["one","two"] %}
-          - /vlp_{{deployments[index].id}}/velodyne_points
+          - {{deployments[index].rostopic}}/velodyne_points
 {% endfor %}
 {% for index in ["one","two"] %}
-        /vlp_{{deployments[index].id}}/velodyne_points:
-          mqtt_topic: /vlp_{{deployments[index].id}}/velodyne_points
+        {{deployments[index].rostopic}}/velodyne_points:
+          mqtt_topic: {{deployments[index].rostopic}}/velodyne_points
 {% endfor %}

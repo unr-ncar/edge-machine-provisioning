@@ -1,13 +1,13 @@
 <launch>
   {% for index in ["one","two"] %}
-    <node pkg="velodyne_driver" exec="velodyne_driver_node" name="velodyne{{deployments[index].id}}" namespace="vlp_{{deployments[index].id}}">
+    <node pkg="velodyne_driver" exec="velodyne_driver_node" name="velodyne{{deployments[index].id}}" namespace="{{deployments[index].rostopic}}">
         <param name="model" value="32C"/>
         <param name="port" value="{{ deployments[index].dataPort + 3 }}"/>
         <param name="frame_id" value="velodyne{{deployments[index].id}}"/>
     </node>
 
     <group>
-      <push-ros-namespace namespace="vlp_{{deployments[index].id}}"/>
+      <push-ros-namespace namespace="{{deployments[index].rostopic}}"/>
       <include file="$(find-pkg-share velodyne_pointcloud)/launch/velodyne_transform_node-VLP32C-launch.py">
         <arg name="port" value="{{ deployments[index].dataPort + 3 }}"/>
         <arg name="frame_id" value="velodyne{{deployments[index].id}}"/>

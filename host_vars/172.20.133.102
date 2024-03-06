@@ -13,6 +13,7 @@ deployments:
       crossStreet: Maple
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Maple/NE
+      rostopic: /IM/Maple/NE
       dataPort: 2440
       nmeaPort: 8388
       interface: enp7s0
@@ -34,6 +35,7 @@ deployments:
       crossStreet: Maple
       lidarConfig: /velodyne/build/VLP-32c.xml
       mqtttopic: /IM/Maple/SW
+      rostopic: /IM/Maple/SW
       dataPort: 2450
       nmeaPort: 8398
       interface: enp8s0
