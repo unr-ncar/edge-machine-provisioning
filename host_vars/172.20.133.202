@@ -1,0 +1,51 @@
+# Modeled after 8th St. Edge Deployment - this machine originally at that intersection.
+test: maybe2
+deployments:
+    one:
+      id: 19 # sensorid
+      ip: 172.20.133.210
+      siteId: 9
+      deploymentId: 0
+      corner: SE
+      model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
+      crossStreet: 8th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/LAB/SE
+      rostopic: /IM/LAB/SE
+      dataPort: 2520
+      nmeaPort: 8468
+      interface: enp7s0
+      frontdirection: -318
+      latitude: 39.53498478160243
+      longitude: -119.8156825567072
+      appid: 1
+      restPort: 40002
+    two:
+      id: 20
+      ip: 172.70.133.211
+      siteId: 9
+      deploymentId: 1
+      corner: NW
+      model: VLP-32C
+      state: Nevada
+      city: Reno
+      street: Virginia
+      crossStreet: 8th
+      lidarConfig: /velodyne/build/VLP-32c.xml
+      mqtttopic: /IM/LAB/NW
+      rostopic: /IM/LAB/NW
+      dataPort: 2530
+      nmeaPort: 8478
+      interface: enp8s0
+      frontdirection: -135
+      latitude: 39.535072340227735
+      longitude: -119.81604022745417
+      appid: 2
+      restPort: 40003
+ip: 172.20.133.202
+HOSTNAME: ncar-edge-lab
+latitude: 39.53499878454539
+longitude: -119.8158440243507
